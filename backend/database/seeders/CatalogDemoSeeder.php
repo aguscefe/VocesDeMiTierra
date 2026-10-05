@@ -8,11 +8,12 @@ class CatalogDemoSeeder extends Seeder {
   foreach(array_merge(array_column($data['artisans'],'profile_image'),array_column($data['products'],'featured_image'))as$url){
    if(!is_file(base_path('../public'.$url)))throw new \RuntimeException('Falta una imagen del catálogo: '.$url);
   }
+  $stories=json_decode(file_get_contents(database_path('catalog-stories.json')),true,512,JSON_THROW_ON_ERROR);
   $missing=array_filter($data['artisans'],fn($a)=>!DB::table('users')->where('id',$a['user_id'])->exists());
   $password=env('DEMO_PASSWORD');
   if($missing && !$password)$password=$this->command?->secret('Contraseña para las cuentas ficticias (mínimo 8 caracteres)');
   if($missing && (!is_string($password)||strlen($password)<8))throw new \RuntimeException('Introduce una contraseña de al menos 8 caracteres para las cuentas de ejemplo.');
-  DB::transaction(function()use($data,$password){
+  DB::transaction(function()use($data,$password,$stories){
    foreach($data['artisans']as$a){
     $existing=DB::table('users')->where('id',$a['user_id'])->first();
     if(!$existing){
@@ -31,7 +32,7 @@ class CatalogDemoSeeder extends Seeder {
      $consent='demo_consent_'.substr($id,14);
      DB::table('cultural_consents')->insert(['id'=>$consent,'producer_id'=>$producer,'product_id'=>$id,'allow_name'=>1,'allow_community'=>1,'allow_photos'=>1,'allow_technique'=>1,'allow_materials'=>1,'allow_history'=>1,'allow_platform'=>1,'allow_qr'=>1]);
      $a=collect($data['artisans'])->firstWhere('producer_id',$producer);
-     DB::table('cultural_records')->insert(['id'=>'demo_ficha_'.substr($id,14),'product_id'=>$id,'community_origin'=>$a['community'],'author_name'=>$a['name'],'cultural_description'=>'Ficha ficticia para demostración escolar. No documenta patrimonio ni atribuye diseños a una comunidad real.','production_process'=>$p['technique'].' (descripción simulada).','authorized_text'=>'Contenido de demostración; no constituye una autorización cultural real.','maya_content_status'=>'not_applicable','consent_id'=>$consent,'disclaimer'=>'Persona, producto y fotografía ficticios generados para este proyecto escolar.']);
+     DB::table('cultural_records')->insert(['id'=>'demo_ficha_'.substr($id,14),'product_id'=>$id,'community_origin'=>$a['community'],'author_name'=>$a['name'],'cultural_description'=>$stories[$id]['history'],'production_process'=>$stories[$id]['process'],'authorized_text'=>'Contenido de demostración; no constituye una autorización cultural real.','maya_content_status'=>'not_applicable','consent_id'=>$consent,'disclaimer'=>'Persona, producto y fotografía ficticios generados para este proyecto escolar.']);
      DB::table('qr_codes')->insert(['id'=>'demo_qr_'.substr($id,14),'product_id'=>$id,'public_url'=>config('app.url').'/producto/'.$id.'?qr=1','active'=>1]);
     }
    }

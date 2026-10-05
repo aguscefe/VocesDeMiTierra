@@ -237,7 +237,7 @@ export default function ProductDetail() {
 
           {cultural && (
             <div className="bg-[#315C4C]/5 border border-[#315C4C]/20 rounded-xl p-6">
-              <h2 className="font-display text-xl font-semibold text-[#3A2923] mb-3">Historia cultural autorizada</h2>
+              <h2 className="font-display text-xl font-semibold text-[#3A2923] mb-3">{product.id.startsWith("demo_producto_") ? "Historia e inspiración" : "Historia cultural autorizada"}</h2>
               {cultural.video_url && (
                 <video src={cultural.video_url} controls className="mb-4 aspect-video w-full rounded-xl bg-black" aria-label="Video del artesano explicando el proceso" />
               )}
