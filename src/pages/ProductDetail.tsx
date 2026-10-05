@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { api } from "../data/api";
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router";
@@ -30,6 +30,9 @@ export default function ProductDetail() {
   const reviews = product ? store.reviews.filter(r => r.product_id === product.id && r.status === "published") : [];
   const related = product ? store.products.filter(p => p.id !== product.id && p.category === product.category && p.status === "published").slice(0, 3) : [];
 
+  const [zoom, setZoom] = useState(false);
+  const zoomDialog = useRef<HTMLDialogElement>(null);
+  useEffect(()=>{if(zoom) zoomDialog.current?.showModal();else zoomDialog.current?.close();},[zoom]);
   const [qty, setQty] = useState(1);
   const [postal, setPostal] = useState("");
   const [shipping, setShipping] = useState<number | null>(null);
@@ -76,7 +79,8 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFFDF8]">
+    <div className="product-detail min-h-screen bg-[#FFFDF8]">
+      <dialog ref={zoomDialog} onCancel={()=>setZoom(false)} onClick={e=>{if(e.target===e.currentTarget)setZoom(false);}} className="photo-dialog" aria-label="Fotografía ampliada"><button autoFocus onClick={()=>setZoom(false)} aria-label="Cerrar fotografía">×</button><img src={gallery[imgIdx]} alt={product.name}/></dialog>
       {/* Breadcrumb */}
       <div className="bg-[#F5EFE4] border-b border-[#EDE8DF] px-4 py-2">
         <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs text-[#6B6763]">
@@ -94,8 +98,8 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-8 sm:mb-12">
           {/* Galería */}
           <div>
-            <div className="relative rounded-2xl overflow-hidden aspect-square bg-[#F5EFE4] mb-3">
-              <ImageWithFallback src={gallery[imgIdx]} alt={product.name} className="w-full h-full object-cover" />
+            <div className="detail-gallery relative rounded-2xl overflow-hidden aspect-square bg-[#F5EFE4] mb-3">
+              <button className="gallery-zoom-button" onClick={()=>setZoom(true)} aria-label="Ampliar fotografía"><ImageWithFallback src={gallery[imgIdx]} alt={product.name} className="w-full h-full object-cover"/><span>Ampliar imagen ↗</span></button>
               {user && (
                 <button onClick={() => toggleFavorite(product.id)} className="absolute top-3 right-3 p-2 rounded-full bg-white/90 shadow hover:scale-110 transition-transform">
                   <svg className={`w-5 h-5 ${isFav ? "fill-[#B85C38] stroke-[#B85C38]" : "stroke-[#6B6763] fill-none"}`} viewBox="0 0 24 24">
@@ -144,7 +148,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Info del productor */}
-            <Link to={`/productor/${producer.id}`} className="flex items-center gap-3 bg-[#F5EFE4] rounded-xl p-4 mb-5 hover:bg-[#EDE8DF] transition-colors">
+            <Link to={`/productor/${producer.id}`} className="detail-artisan flex items-center gap-3 bg-[#F5EFE4] rounded-xl p-4 mb-5 hover:bg-[#EDE8DF] transition-colors">
               <ImageWithFallback src={producer.profile_image} alt={producer.workshop_name} className="w-12 h-12 rounded-full object-cover border border-[#EDE8DF]" />
               <div>
                 <p className="font-semibold text-sm text-[#3A2923]">{producer.workshop_name}</p>
@@ -229,7 +233,7 @@ export default function ProductDetail() {
         </div>
 
         {/* Descripción y proceso */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="detail-stories grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           <div className="bg-white border border-[#EDE8DF] rounded-xl p-6">
             <h2 className="font-display text-xl font-semibold text-[#3A2923] mb-3">Descripción</h2>
             <p className="text-[#6B6763] leading-relaxed">{product.description}</p>

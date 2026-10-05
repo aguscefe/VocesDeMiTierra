@@ -2,6 +2,7 @@ import { useApp as useDataRefresh } from "../context/AppContext";
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router";
 import { getStore } from "../data/store";
+import CraftBanner from "../components/CraftBanner";
 import ProductCard from "../components/ProductCard";
 
 const CATEGORIES = ["Textiles y bordados", "Madera", "Fibras naturales", "Cerámica", "Joyería artesanal", "Decoración", "Accesorios"];
@@ -50,13 +51,7 @@ export default function Catalog() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF8]">
-      <div className="bg-[#3A2923] py-10 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="font-display text-3xl font-bold text-white mb-2">Catálogo de artesanías</h1>
-          <p className="text-[#C4A99A]">Piezas únicas de comunidades originarias de Quintana Roo</p>
-        </div>
-      </div>
-
+      <CraftBanner title="Artesanías que cuentan historias" description="Encuentra una pieza que conecte contigo. Texturas, colores y manos de Quintana Roo." tone="coral" image="/demo/artesanos/lucia.png"/>
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Filtros sidebar */}
@@ -67,21 +62,14 @@ export default function Catalog() {
                 {hasFilters && <span className="ml-1 bg-[#B85C38] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">•</span>}
               </button>
             </div>
-            <div className={`${filtersOpen ? "block" : "hidden"} lg:block bg-white rounded-xl border border-[#EDE8DF] p-5 space-y-6`}>
+            <div className={`${filtersOpen ? "block" : "hidden"} lg:block filter-panel bg-white rounded-xl border border-[#EDE8DF] p-5 space-y-6`}>
               <div>
                 <label className="text-xs font-semibold text-[#3A2923] uppercase tracking-wider mb-2 block">Búsqueda</label>
                 <input className="input-field" placeholder="Nombre, técnica..." value={q} onChange={e => setQ(e.target.value)} />
               </div>
               <div>
                 <label className="text-xs font-semibold text-[#3A2923] uppercase tracking-wider mb-2 block">Categoría</label>
-                <div className="flex flex-col gap-1">
-                  {CATEGORIES.map(cat => (
-                    <label key={cat} className="flex items-center gap-2 cursor-pointer text-sm">
-                      <input type="radio" name="category" checked={category === cat} onChange={() => setCategory(category === cat ? "" : cat)} className="accent-[#B85C38]" />
-                      <span className={category === cat ? "text-[#B85C38] font-medium" : "text-[#6B6763]"}>{cat}</span>
-                    </label>
-                  ))}
-                </div>
+                <div className="catalog-categories">{["",...CATEGORIES].map(cat=><button type="button" key={cat} aria-pressed={category===cat} onClick={()=>setCategory(cat)} className={`filter-pill ${category===cat?"active":""}`}>{cat||"Todo"}</button>)}</div>
               </div>
               <div>
                 <label className="text-xs font-semibold text-[#3A2923] uppercase tracking-wider mb-2 block">Municipio / Comunidad</label>

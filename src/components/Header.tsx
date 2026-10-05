@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { useApp } from "../context/AppContext";
 import { getStore } from "../data/store";
+import { useLanguage } from "../context/LanguageContext";
 import logoImg from "../imports/logo2.png";
 
 type NavItem = { label: string; to: string };
@@ -20,6 +21,8 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { language, setLanguage, pending, error: languageError } = useLanguage();
 
   const dashPath = user?.role === "admin" ? "/admin" : user?.role === "producer" ? "/productor/dashboard" : "/consumidor/dashboard";
   const producerProfile = user?.role === "producer"
@@ -55,8 +58,8 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#EDE8DF] bg-white shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4">
+    <header className="site-header sticky top-0 z-50">
+      <div className="mx-auto flex h-20 max-w-7xl items-center gap-3 px-4">
         <Link to={homePath} className="flex shrink-0 items-center gap-2">
           <img src={logoImg} alt="Logo Voces de mi Tierra" className="h-10 w-10 object-contain" />
           <span className="hidden font-display text-lg font-semibold leading-tight text-[#3A2923] sm:block">
@@ -71,7 +74,7 @@ export default function Header() {
 
         <nav className="ml-4 hidden items-center gap-1 lg:flex">
           {roleNav.map(item => (
-            <Link key={item.to} to={item.to} className="rounded-lg px-3 py-2 text-sm text-[#6B6763] transition-colors hover:bg-[#F5EFE4] hover:text-[#B85C38]">
+            <Link key={item.to} to={item.to} className={`header-nav-link ${location.pathname === item.to ? "is-active" : ""}`}>
               {item.label}
             </Link>
           ))}
@@ -86,14 +89,14 @@ export default function Header() {
             </button>
           )}
 
-          {user?.role === "consumer" && (
+          {showShoppingTools && (
             <>
               <Link to="/favoritos" className="relative hidden rounded-lg p-2 text-[#6B6763] transition-colors hover:bg-[#F5EFE4] hover:text-[#B85C38] sm:block" aria-label="Favoritos">
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
               </Link>
-              <Link to="/carrito" className="relative rounded-lg p-2 text-[#6B6763] transition-colors hover:bg-[#F5EFE4] hover:text-[#B85C38]" aria-label="Carrito">
+              <Link to="/carrito" className="relative rounded-lg p-2 text-[#6B6763] transition-colors hover:bg-[#F5EFE4] hover:text-[#B85C38]" aria-label={`Carrito, ${cartCount} piezas`}>
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
-                {cartCount > 0 && <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#B85C38] text-[10px] font-bold text-white">{cartCount}</span>}
+                {cartCount > 0 && <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#EF6158] text-[10px] font-bold text-white">{cartCount}</span>}
               </Link>
             </>
           )}
@@ -132,10 +135,7 @@ export default function Header() {
             </>
           )}
 
-          <div className="ml-1 hidden items-center gap-1 xl:flex">
-            <button className="rounded bg-[#B85C3815] px-2 py-1 text-xs font-medium text-[#B85C38]">ES</button>
-            <button className="rounded px-2 py-1 text-xs text-[#6B6763] hover:bg-[#F5EFE4]">Maya</button>
-          </div>
+          <div className="language-switch" translate="no" aria-label="Idioma de la página"><button aria-pressed={language === "es"} onClick={()=>setLanguage("es")}>ES</button><button aria-pressed={language === "yua"} onClick={()=>setLanguage("yua")}>Maya</button></div>
 
           <button onClick={() => setMenuOpen(current => !current)} className="rounded-lg p-2 text-[#6B6763] hover:bg-[#F5EFE4] lg:hidden" aria-label="Menú">
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,6 +145,7 @@ export default function Header() {
         </div>
       </div>
 
+      {(pending || languageError) && <div className="language-notice" translate="no" role="status">{languageError || "Traduciendo la página al maya yucateco…"}{languageError && <button onClick={()=>setLanguage("es")}>Volver a español</button>}</div>}
       {searchOpen && showShoppingTools && (
         <div className="border-t border-[#EDE8DF] bg-white px-4 py-3">
           <form onSubmit={handleSearch} className="mx-auto flex max-w-xl gap-2">
@@ -161,7 +162,7 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          {user?.role === "consumer" && (
+          {showShoppingTools && (
             <>
               <Link to="/favoritos" className="py-2 text-sm font-medium text-[#25211F]" onClick={() => setMenuOpen(false)}>Favoritos</Link>
               <Link to="/carrito" className="py-2 text-sm font-medium text-[#25211F]" onClick={() => setMenuOpen(false)}>Carrito ({cartCount})</Link>

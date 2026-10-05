@@ -148,3 +148,4 @@
 # New generated demo photos are normal Git files, without external LFS downloads.
 public/demo/artesanos/*.png -filter -diff -merge -text
 public/demo/productos/*.png -filter -diff -merge -text
+public/design/** -filter -diff -merge -text

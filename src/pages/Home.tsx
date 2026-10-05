@@ -1,17 +1,18 @@
 import { useApp as useDataRefresh } from "../context/AppContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router";
 import { getStore } from "../data/store";
+import ArtisanCard from "../components/ArtisanCard";
 import ProductCard from "../components/ProductCard";
 import ImageWithFallback from "../components/ImageWithFallback";
 import fondoImg from "../imports/fondo.png";
 import { speakNaturally } from "../utils/speech";
 
 const LANG_CARDS = [
-  { glyph: "B", name: "Saludo", phrase: "Bix a beel?", trans: "¿Cómo estás?", region: "Maya yucateco", c1: "#B85C38", c2: "#D6A73C" },
-  { glyph: "K", name: "Buen día", phrase: "Ma'alob k'iin", trans: "Buenos días", region: "Maya yucateco", c1: "#315C4C", c2: "#2F7D50" },
-  { glyph: "Y", name: "Agradecimiento", phrase: "Yuum bo'otik", trans: "Gracias", region: "Maya yucateco", c1: "#8B4513", c2: "#D6A73C" },
-  { glyph: "K", name: "Invitación", phrase: "Ko'ox", trans: "Vamos", region: "Maya yucateco", c1: "#3A2923", c2: "#B85C38" },
+  { glyph: "B", name: "Saludo", phrase: "Bix a beel?", trans: "¿Cómo estás?", region: "Maya yucateco", c1: "#EC6B26", c2: "#F7AD32" },
+  { glyph: "K", name: "Buen día", phrase: "Ma'alob k'iin", trans: "Buenos días", region: "Maya yucateco", c1: "#087F89", c2: "#26AE86" },
+  { glyph: "Y", name: "Agradecimiento", phrase: "Yuum bo'otik", trans: "Gracias", region: "Maya yucateco", c1: "#E55659", c2: "#ED8296" },
+  { glyph: "K", name: "Invitación", phrase: "Ko'ox", trans: "Vamos", region: "Maya yucateco", c1: "#7352AA", c2: "#AD85CB" },
 ];
 
 const STORY_POINTS = [
@@ -32,6 +33,7 @@ const CATEGORIES = [
 export default function Home() {
   useDataRefresh();
   const store = getStore();
+  const artisanRail = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState("all");
   const [speakingPhrase, setSpeakingPhrase] = useState("");
 
@@ -92,7 +94,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-10 sm:mb-16">
             <Link to="/catalogo"
               className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #B85C38, #D6A73C)" }}>
+              style={{ background: "linear-gradient(135deg, #EF6158, #E69A35)" }}>
               Compra con propósito
             </Link>
             <Link to="/productores"
@@ -103,10 +105,10 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-6 sm:gap-10 text-center">
             {[
-              { num: "8+", label: "Productores" },
-              { num: "20+", label: "Artesanías" },
-              { num: "7", label: "Comunidades" },
-              { num: "100%", label: "Comercio justo" },
+              { num: String(store.producer_profiles.filter(p=>p.authorization_status === "approved").length), label: "Productores" },
+              { num: String(allPublished.length), label: "Artesanías" },
+              { num: String(new Set(store.producer_profiles.filter(p=>p.authorization_status === "approved").map(p=>p.community)).size), label: "Comunidades" },
+              { num: "90%", label: "Del precio para el productor" },
             ].map(s => (
               <div key={s.label}>
                 <div className="text-3xl font-bold text-[#D6A73C]" style={{ fontFamily: "'Playfair Display', serif" }}>{s.num}</div>
@@ -124,36 +126,11 @@ export default function Home() {
           <div className="text-center mb-12">
             <span className="text-[#B85C38] text-sm font-semibold tracking-widest">— Nuestras comunidades —</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-[#3A2923]" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Voces que tejen <em>identidad</em>
+              Voces que tejen <em className="color-word">identidad</em>
             </h2>
-            <p className="text-[#6B6763] mt-3">Artesanos con trayectoria y procedencia verificada</p>
+            <p className="text-[#6B6763] mt-3">Conoce las manos y los lugares detrás de cada pieza</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducers.map(pp => (
-              <Link to={`/productor/${pp.id}`} key={pp.id}
-                data-reveal className="artisan-motion group bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EDE8DF] hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <div className="h-36 relative overflow-hidden"
-                  style={{ background: "linear-gradient(135deg, #3A2923, #315C4C)" }}>
-                  <ImageWithFallback src={pp.profile_image} alt={pp.workshop_name}
-                    className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-3 left-3">
-                    <span className="text-[10px] font-semibold text-white/80 bg-white/20 px-2 py-0.5 rounded-full">
-                      {pp.craft_types[0]}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-[#25211F] text-sm leading-tight">{pp.workshop_name}</h3>
-                  <p className="text-xs text-[#6B6763] mt-0.5">{pp.community}, Q.Roo</p>
-                  <div className="flex items-center gap-1 mt-2">
-                    <span className="text-[#D6A73C] text-xs">★ {pp.rating}</span>
-                    <span className="text-xs text-[#6B6763]">· {pp.total_products} piezas</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <div className="artisan-carousel"><button className="carousel-arrow" aria-label="Artesanos anteriores" onClick={()=>artisanRail.current?.scrollBy({left:-300,behavior:"smooth"})}>‹</button><div ref={artisanRail} className="artisan-rail">{featuredProducers.map(pp=><ArtisanCard key={pp.id} producer={pp}/>)}</div><button className="carousel-arrow" aria-label="Siguientes artesanos" onClick={()=>artisanRail.current?.scrollBy({left:300,behavior:"smooth"})}>›</button></div>
           <div className="text-center mt-8">
             <Link to="/productores" className="text-[#B85C38] font-semibold hover:underline text-sm">
               Ver todos los artesanos →
@@ -163,7 +140,7 @@ export default function Home() {
       </section>
 
       {/* ── LENGUAS ORIGINARIAS ── */}
-      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #1a0f08 100%)" }}>
+      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #182544 0%, #392956 100%)" }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#D6A73C] text-sm font-semibold tracking-widest">— Lenguas originarias —</span>
@@ -174,11 +151,11 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {LANG_CARDS.map(card => (
-              <button type="button" onClick={() => pronounce(card.phrase)} key={card.name} className="rounded-2xl p-6 flex flex-col gap-3 border border-white/10 hover:-translate-y-1 transition-all duration-300 text-left"
-                style={{ background: `linear-gradient(135deg, ${card.c1}22, ${card.c2}15)` }}>
-                <div className="text-4xl font-bold" style={{ color: card.c1 }}>{card.glyph}</div>
+              <button type="button" onClick={() => pronounce(card.phrase)} key={card.name} className="language-card rounded-2xl p-6 flex flex-col gap-3 border border-white/10 hover:-translate-y-1 transition-all duration-300 text-left"
+                style={{ background: `linear-gradient(135deg, ${card.c1}, ${card.c2})` }}>
+                <div className="text-4xl font-bold" style={{ color: "#FFFFFF" }}>{card.glyph}</div>
                 <span className="text-white font-semibold text-base">{card.name}</span>
-                <p className="text-lg font-medium" style={{ color: card.c2 }}>{card.phrase}</p>
+                <p translate="no" className="font-display text-2xl font-medium" style={{ color: "#FFFFFF" }}>{card.phrase}</p>
                 <span className="text-white/60 text-sm">{card.trans}</span>
                 <span className="text-xs text-white/40 mt-auto pt-2 border-t border-white/10">
                   {speakingPhrase === card.phrase ? "Reproduciendo pronunciación..." : `${card.region} · Toca para escuchar`}
@@ -201,16 +178,16 @@ export default function Home() {
           </div>
 
           {/* Filter chips */}
-          <div className="flex flex-wrap gap-2 justify-center mb-10">
+          <div className="filter-pills mb-10">
             {CATEGORIES.map(cat => (
               <button key={cat.key}
                 onClick={() => setActiveFilter(cat.key)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`filter-pill px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   activeFilter === cat.key
                     ? "text-white shadow-md"
                     : "bg-white text-[#6B6763] border border-[#EDE8DF] hover:border-[#B85C38] hover:text-[#B85C38]"
                 }`}
-                style={activeFilter === cat.key ? { background: "linear-gradient(135deg, #B85C38, #D6A73C)" } : {}}>
+                style={activeFilter === cat.key ? { background: "linear-gradient(135deg, #EF6158, #E69A35)" } : {}}>
                 {cat.label}
               </button>
             ))}
@@ -231,7 +208,7 @@ export default function Home() {
           <div className="text-center mt-10">
             <Link to="/catalogo"
               className="inline-block px-8 py-3.5 rounded-full font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #B85C38, #D6A73C)" }}>
+              style={{ background: "linear-gradient(135deg, #EF6158, #E69A35)" }}>
               Ver todas las artesanías
             </Link>
           </div>
@@ -239,7 +216,7 @@ export default function Home() {
       </section>
 
       {/* ── CÓMO FUNCIONA ── */}
-      <section data-reveal className="bg-[#315C4C] py-14 sm:py-20 px-4">
+      <section data-reveal className="home-process py-14 sm:py-20 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <span className="text-[#D6A73C] text-sm font-semibold tracking-widest">— Proceso —</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white mb-8 sm:mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -247,14 +224,12 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {[
-              { n: "01", icon: "🔍", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
-              { n: "02", icon: "📖", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
-              { n: "03", icon: "🤝", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
+              { n: "01", image: "/demo/artesanos/ana.png", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
+              { n: "02", image: "/demo/artesanos/lucia.png", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
+              { n: "03", image: "/design/compra-artesanal.png", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
             ].map(step => (
-              <div key={step.n} className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-3xl mb-4">
-                  {step.icon}
-                </div>
+              <div key={step.n} data-reveal className="home-step flex flex-col items-center text-center">
+                <img src={step.image} alt={step.title} className="step-photo" loading="lazy"/>
                 <div className="text-[#D6A73C] text-xs font-bold font-mono tracking-widest mb-2">{step.n}</div>
                 <h3 className="text-white font-semibold text-lg mb-2">{step.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{step.desc}</p>
@@ -287,7 +262,7 @@ export default function Home() {
               <p className="text-[#6B6763] leading-relaxed mb-6">
                 Trabajamos directamente con cooperativas y artesanos del sureste mexicano
                 para llevar al mundo piezas auténticas, garantizando que el 90% del valor
-                de cada compra regrese a quien la creó.
+                del precio de cada pieza regrese a quien la creó.
               </p>
               <ul className="space-y-2.5 mb-8">
                 {STORY_POINTS.map(pt => (
@@ -306,16 +281,16 @@ export default function Home() {
             {/* Visual cards */}
             <div className="relative h-80 lg:h-96">
               <div className="absolute top-0 left-0 w-48 h-48 rounded-2xl overflow-hidden shadow-xl"
-                style={{ background: "linear-gradient(135deg, #B85C38, #D6A73C)" }}>
-                <div className="w-full h-full flex items-center justify-center text-6xl opacity-40">🧵</div>
+                style={{ background: "linear-gradient(135deg, #EF6158, #E69A35)" }}>
+                <img src="/demo/artesanos/ana.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute top-16 right-0 w-44 h-44 rounded-2xl overflow-hidden shadow-xl"
                 style={{ background: "linear-gradient(135deg, #315C4C, #3A2923)" }}>
-                <div className="w-full h-full flex items-center justify-center text-5xl opacity-40">🏺</div>
+                <img src="/demo/artesanos/elena.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute bottom-0 left-16 w-52 h-40 rounded-2xl overflow-hidden shadow-xl"
                 style={{ background: "linear-gradient(135deg, #3A2923, #B85C38)" }}>
-                <div className="w-full h-full flex items-center justify-center text-5xl opacity-40">🪵</div>
+                <img src="/demo/artesanos/mateo.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-20 h-20 rounded-full border-4 border-[#D6A73C]/40 flex items-center justify-center">
@@ -328,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* ── CTA PRODUCTORES ── */}
-      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #B85C38 50%, #D6A73C 100%)" }}>
+      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(120deg, #D7524F 0%, #E57738 55%, #D99628 100%)" }}>
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-white/60 text-sm font-semibold tracking-widest">— Únete a la red —</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>

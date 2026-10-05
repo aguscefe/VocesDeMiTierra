@@ -5,6 +5,7 @@ Route::prefix('api')->group(function () {
  Route::get('csrf', fn()=>response()->json(['token'=>csrf_token()]));
  Route::get('health', fn()=>response()->json(['status'=>'ok']));
  Route::post('transcribe',[\App\Http\Controllers\Api\TranscriptionController::class,'transcribe'])->middleware('throttle:3,1');
+ Route::post('translate/page',[\App\Http\Controllers\Api\TranslationController::class,'page'])->middleware('throttle:60,1');
  Route::post('translate',[\App\Http\Controllers\Api\TranslationController::class,'translate'])->middleware('throttle:10,1');
  Route::get('state', [M::class,'state']);
  Route::post('login', [M::class,'login'])->middleware('throttle:10,1');

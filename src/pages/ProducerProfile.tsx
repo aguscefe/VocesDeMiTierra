@@ -27,9 +27,9 @@ export default function ProducerProfile() {
   const totalReviews = store.reviews.filter(r => products.some(p => p.id === r.product_id)).length;
 
   return (
-    <div className="min-h-screen bg-[#FFFDF8]">
+    <div className="artisan-profile min-h-screen bg-[#FFFDF8]">
       {/* Hero del productor */}
-      <div className="bg-gradient-to-br from-[#315C4C] to-[#3A2923] py-14 px-4">
+      <div className="artisan-profile-hero py-14 px-4">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center sm:items-start gap-6">
           <div className="relative shrink-0">
             <ImageWithFallback src={producer.profile_image} alt={producer.workshop_name} className="w-28 h-28 rounded-full object-cover border-4 border-white/30" />
@@ -40,9 +40,9 @@ export default function ProducerProfile() {
             )}
           </div>
           <div className="text-center sm:text-left text-white">
-            <h1 className="font-display text-3xl font-bold mb-1">{producer.workshop_name}</h1>
-            <p className="text-white/90 mb-2">{producer.artisan_name || user?.name}</p>
-            <p className="text-white/70 mb-3">{producer.community}, {producer.municipality}</p>
+            <h1 translate="no" className="font-display text-3xl font-bold mb-1">{producer.workshop_name}</h1>
+            <p translate="no" className="text-white/90 mb-2">{producer.artisan_name || user?.name}</p>
+            <p translate="no" className="text-white/70 mb-3">{producer.community}, {producer.municipality}</p>
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start text-sm">
               <span className="flex items-center gap-1"><span className="text-[#D6A73C]">★</span> <strong>{avgRating}</strong> ({totalReviews} reseñas)</span>
               <span className="text-white/50">·</span>

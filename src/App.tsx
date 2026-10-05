@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
 import { AppProvider } from "./context/AppContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PageMotion from "./components/PageMotion";
@@ -27,8 +28,10 @@ import { Privacy, Terms, ShippingReturns, AboutUs, FAQ, Contact } from "./pages/
 function RootLayout() {
   return (
     <AppProvider>
+      <LanguageProvider>
       <Outlet />
       <SpeechTranslator />
+      </LanguageProvider>
     </AppProvider>
   );
 }
