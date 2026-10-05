@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\MarketplaceController as M;
 Route::prefix('api')->group(function () {
  Route::get('csrf', fn()=>response()->json(['token'=>csrf_token()]));
  Route::get('health', fn()=>response()->json(['status'=>'ok']));
+ Route::post('transcribe',[\App\Http\Controllers\Api\TranscriptionController::class,'transcribe'])->middleware('throttle:3,1');
  Route::post('translate',[\App\Http\Controllers\Api\TranslationController::class,'translate'])->middleware('throttle:10,1');
  Route::get('state', [M::class,'state']);
  Route::post('login', [M::class,'login'])->middleware('throttle:10,1');
@@ -20,6 +21,10 @@ Route::prefix('api')->group(function () {
   Route::patch('products/{id}',[M::class,'moderateProduct']);
   Route::patch('producers/{id}',[M::class,'moderateProducer']);
   Route::patch('users/{id}',[M::class,'moderateUser']);
+  Route::post('certificates',[\App\Http\Controllers\Api\CertificateController::class,'upload']);
+  Route::get('certificates/{id}/download',[\App\Http\Controllers\Api\CertificateController::class,'download']);
+  Route::patch('certificates/{id}',[\App\Http\Controllers\Api\CertificateController::class,'review']);
+  Route::post('products/{id}/certificate',[\App\Http\Controllers\Api\CertificateController::class,'replace']);
   Route::post('uploads',[M::class,'upload']);
   Route::post('tickets',[M::class,'ticket']);
   Route::patch('tickets/{id}',[M::class,'ticketUpdate']);

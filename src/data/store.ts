@@ -1,6 +1,6 @@
 import { api } from "./api";
 import type { AppStore, Cart, CartItem, Order } from "./types";
-let store: AppStore = { users: [], producer_profiles: [], products: [], cultural_records: [], orders: [], payments: [], reviews: [], notifications: [], qr_codes: [], favorites: [], carts: [], support_tickets: [], consents: [], audit_logs: [] };
+let store: AppStore = { certificates: [], users: [], producer_profiles: [], products: [], cultural_records: [], orders: [], payments: [], reviews: [], notifications: [], qr_codes: [], favorites: [], carts: [], support_tickets: [], consents: [], audit_logs: [] };
 let revision = 0;
 export const getStore = () => store;
 export const getRevision = () => revision;

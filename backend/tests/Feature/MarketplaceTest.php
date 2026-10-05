@@ -68,18 +68,70 @@ class MarketplaceTest extends TestCase {
   $_ENV['DEMO_PASSWORD']=$_SERVER['DEMO_PASSWORD']='FixturePass123';
   try {
    $this->seed(\Database\Seeders\CatalogDemoSeeder::class);
-   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('producer_profiles',4);$this->assertDatabaseCount('products',8);
+   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('producer_profiles',4);$this->assertDatabaseCount('products',38);
    $this->assertTrue(Hash::check('ExistingPass123',$admin->fresh()->password));
    $this->assertTrue(Hash::check('FixturePass123',User::findOrFail('demo_user_ana')->password));
    DB::table('producer_profiles')->where('id','demo_taller_ana')->update(['biography'=>'Biografía editada por el usuario']);
    DB::table('products')->where('id','demo_producto_rebozo')->update(['stock'=>3,'status'=>'paused']);
    DB::table('cultural_consents')->where('product_id','demo_producto_rebozo')->update(['revoked_at'=>now()]);
    $this->seed(\Database\Seeders\CatalogDemoSeeder::class);
-   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('products',8);
+   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('products',38);
    $this->assertDatabaseHas('producer_profiles',['id'=>'demo_taller_ana','biography'=>'Biografía editada por el usuario']);
    $this->assertDatabaseHas('products',['id'=>'demo_producto_rebozo','stock'=>3,'status'=>'paused']);
    $this->assertNotNull(DB::table('cultural_consents')->where('product_id','demo_producto_rebozo')->value('revoked_at'));
-   $this->getJson('/api/state')->assertOk()->assertJsonCount(7,'store.products');
+   $this->getJson('/api/state')->assertOk()->assertJsonCount(37,'store.products');
   }finally{unset($_ENV['DEMO_PASSWORD'],$_SERVER['DEMO_PASSWORD']);}
+ }
+
+ public function test_certificate_is_private_and_requires_admin_review_before_publication(): void {
+  [$buyer,$seller]=$this->fixture();
+  $admin=User::create(['id'=>'admin','name'=>'Admin','email'=>'admin@example.test','password'=>'Test12345','phone'=>'','role'=>'admin','status'=>'active']);
+  \Illuminate\Support\Facades\Storage::fake('local');
+  $file=\Illuminate\Http\UploadedFile::fake()->createWithContent('certificado.pdf',"%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\n%%EOF");
+  $this->actingAs($buyer)->postJson('/api/certificates',['file'=>$file])->assertForbidden();
+  $uploaded=$this->actingAs($seller)->postJson('/api/certificates',['file'=>$file])->assertCreated();$cid=$uploaded->json('id');
+  $body=['certificate_id'=>$cid,'name'=>'Artesanía nueva','description'=>'Pieza elaborada a mano','category'=>'Madera','price'=>100,'stock'=>5,'materials'=>['Madera'],'technique'=>'Tallado','package_weight'=>.5,'package_dimensions'=>'10x10x10','gallery'=>['/storage/uploads/foto.png'],'consents'=>['c_name'=>true,'c_platform'=>true,'c_photos'=>true,'c_technique'=>true,'c_materials'=>true]];
+  $this->postJson('/api/products',$body)->assertCreated();$pid=DB::table('product_certificates')->where('id',$cid)->value('product_id');
+  $this->postJson('/api/products',$body)->assertUnprocessable();
+  $this->assertDatabaseHas('notifications',['user_id'=>'admin','type'=>'certificate']);
+  $this->actingAs($buyer)->get('/api/certificates/'.$cid.'/download')->assertForbidden();
+  $this->getJson('/api/state')->assertJsonCount(0,'store.certificates');
+  $this->actingAs($seller)->get('/api/certificates/'.$cid.'/download')->assertOk();
+  $this->patchJson('/api/certificates/'.$cid,['status'=>'approved'])->assertForbidden();
+  $this->actingAs($admin)->patchJson('/api/products/'.$pid,['status'=>'published'])->assertUnprocessable();
+  $this->getJson('/api/state')->assertJsonMissingPath('store.certificates.0.path');
+  $this->patchJson('/api/certificates/'.$cid,['status'=>'approved','review_notes'=>'Documento revisado'])->assertOk();
+  $this->assertDatabaseHas('products',['id'=>$pid,'status'=>'pending']);
+  $this->patchJson('/api/products/'.$pid,['status'=>'published'])->assertOk();
+  $this->assertDatabaseHas('audit_logs',['target_id'=>$cid,'action'=>'certificate:approved']);
+  $this->patchJson('/api/certificates/'.$cid,['status'=>'rejected','review_notes'=>'No'])->assertUnprocessable();
+ }
+ public function test_rejected_certificate_can_be_replaced_only_by_owner(): void {
+  [$buyer,$seller]=$this->fixture();
+  $admin=User::create(['id'=>'admin','name'=>'Admin','email'=>'admin@example.test','password'=>'Test12345','phone'=>'','role'=>'admin','status'=>'active']);
+  DB::table('product_certificates')->insert(['id'=>'old','producer_id'=>'profile','product_id'=>'piece','path'=>'certificates/old.pdf','original_name'=>'old.pdf','mime_type'=>'application/pdf','status'=>'pending','created_at'=>now(),'updated_at'=>now()]);
+  $this->actingAs($admin)->patchJson('/api/certificates/old',['status'=>'rejected'])->assertUnprocessable();
+  $this->patchJson('/api/certificates/old',['status'=>'rejected','review_notes'=>'Falta firma'])->assertOk();
+  $this->assertDatabaseHas('products',['id'=>'piece','status'=>'rejected']);
+  DB::table('product_certificates')->insert(['id'=>'new','producer_id'=>'profile','path'=>'certificates/new.pdf','original_name'=>'new.pdf','mime_type'=>'application/pdf','status'=>'uploaded','created_at'=>now(),'updated_at'=>now()]);
+  $this->actingAs($buyer)->postJson('/api/products/piece/certificate',['certificate_id'=>'new'])->assertForbidden();
+  $this->actingAs($seller)->postJson('/api/products/piece/certificate',['certificate_id'=>'new'])->assertOk();
+  $this->assertDatabaseHas('product_certificates',['id'=>'new','product_id'=>'piece','status'=>'pending']);
+  $this->assertDatabaseHas('product_certificates',['id'=>'old','product_id'=>null,'status'=>'rejected']);
+  $this->assertDatabaseHas('products',['id'=>'piece','status'=>'pending']);
+ }
+ public function test_paypal_demo_records_payment_without_credentials(): void {
+  [$buyer]=$this->fixture();$this->actingAs($buyer)->putJson('/api/cart',['items'=>[['product_id'=>'piece','quantity'=>1]]])->assertOk();
+  $this->postJson('/api/checkout',['address'=>'Dirección','postal'=>'77500','method'=>'paypal','scenario'=>'approved','idempotency_key'=>'de90fdeb-6a60-4799-8e88-18984c539d43'])->assertCreated();
+  $this->assertDatabaseHas('payments',['method'=>'paypal','status'=>'approved','is_simulated'=>1]);
+ }
+ public function test_maya_dictation_proxies_audio_without_using_spanish_recognition(): void {
+  \Illuminate\Support\Facades\Http::preventStrayRequests();
+  \Illuminate\Support\Facades\Http::fake(['127.0.0.1:8765/*'=>\Illuminate\Support\Facades\Http::sequence()->push(['text'=>"Bix a beel",'language'=>'yua'])->push([],503)]);
+  $file=\Illuminate\Http\UploadedFile::fake()->createWithContent('maya.wav','RIFF'.pack('V',36).'WAVE'.str_repeat("\0",32));
+  $this->postJson('/api/transcribe',['audio'=>$file])->assertOk()->assertJsonPath('text','Bix a beel');
+  \Illuminate\Support\Facades\Http::assertSent(fn($r)=>$r->url()==='http://127.0.0.1:8765/transcribe' && str_starts_with($r->body(),'RIFF'));
+  $this->postJson('/api/transcribe',['audio'=>\Illuminate\Http\UploadedFile::fake()->createWithContent('bad.wav','invalid')])->assertUnprocessable();
+  $this->postJson('/api/transcribe',['audio'=>$file])->assertStatus(503);
  }
 }

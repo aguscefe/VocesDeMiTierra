@@ -36,6 +36,6 @@ class CatalogDemoSeeder extends Seeder {
     }
    }
   });
-  $this->command?->info('Catálogo de ejemplo listo: 4 artesanos/talleres y 8 productos. Se conservaron las cuentas y los cambios existentes.');
+  $this->command?->info('Catálogo de ejemplo listo: '.count($data['artisans']).' artesanos/talleres y '.count($data['products']).' productos. Se conservaron las cuentas y los cambios existentes.');
  }
 }

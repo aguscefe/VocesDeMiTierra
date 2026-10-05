@@ -5,7 +5,7 @@ import { useApp } from "../context/AppContext";
 import { getStore, refreshStore } from "../data/store";
 
 type Step = "datos" | "pago" | "confirmacion";
-type PayMethod = "card" | "transfer" | "pending";
+type PayMethod = "card" | "transfer" | "pending" | "paypal";
 
 const TEST_CARDS = [
   { number: "4242 4242 4242 4242", desc: "Pago aprobado", result: "approved" as const },
@@ -23,9 +23,10 @@ export default function Checkout() {
   const [postal, setPostal] = useState("");
   const [phone, setPhone] = useState(user?.phone || "");
   const [method, setMethod] = useState<PayMethod>("card");
-  const [cardNum, setCardNum] = useState("");
-  const [cardExp, setCardExp] = useState("");
-  const [cardCvc, setCardCvc] = useState("");
+  const [cardNum, setCardNum] = useState("4242 4242 4242 4242");
+  const [paypalAuthorized, setPaypalAuthorized] = useState(false);
+  const [cardExp] = useState("12/28");
+  const [cardCvc] = useState("123");
   const [processing, setProcessing] = useState(false);
   const [payResult, setPayResult] = useState<"approved" | "declined" | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<{ order_number: string; tx_id: string } | null>(null);
@@ -58,6 +59,7 @@ export default function Checkout() {
   }
 
   function validatePago() {
+    if (method === "paypal" && !paypalAuthorized) { setErrors({paypal:"Autoriza el pago para continuar."}); return false; }
     if (method !== "card") return true;
     const e: Record<string, string> = {};
     const raw = cardNum.replace(/\s/g, "");
@@ -96,15 +98,15 @@ export default function Checkout() {
             <div className="w-16 h-16 bg-[#2F7D50]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-[#2F7D50]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
             </div>
-            <h2 className="font-display text-2xl font-bold text-[#3A2923] mb-2">¡Pedido confirmado!</h2>
-            <p className="text-[#6B6763] mb-4">Tu pedido ha sido recibido y el artesano comenzará su preparación pronto.</p>
+            <h2 className="font-display text-2xl font-bold text-[#3A2923] mb-2">¡Pedido registrado!</h2>
+            <p className="text-[#6B6763] mb-4">Tu pedido ha sido recibido. Puedes consultar su estado en tu panel.</p>
             <div className="bg-[#F5EFE4] rounded-xl p-4 text-left space-y-2 mb-6">
               <div className="flex justify-between text-sm">
                 <span className="text-[#6B6763]">Número de pedido</span>
                 <span className="font-mono font-bold text-[#3A2923]">{confirmedOrder.order_number}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-[#6B6763]">ID de transacción sandbox</span>
+                <span className="text-[#6B6763]">ID de transacción</span>
                 <span className="font-mono text-xs text-[#B85C38]">{confirmedOrder.tx_id}</span>
               </div>
               <div className="flex justify-between text-sm">
@@ -173,17 +175,14 @@ export default function Checkout() {
 
             {step === "pago" && (
               <div className="bg-white border border-[#EDE8DF] rounded-xl p-6 space-y-5">
-                <div className="bg-[#B33A3A]/5 border border-[#B33A3A]/20 rounded-xl p-4 text-center">
-                  <p className="text-sm font-semibold text-[#B33A3A] mb-1">🔒 Pago de demostración</p>
-                  <p className="text-xs text-[#B33A3A]">No se realizará ningún cargo real. Utiliza las tarjetas de prueba.</p>
-                </div>
+                <p className="text-xs text-[#6B6763]">Compra de demostración · No se realizan cargos ni se solicitan datos financieros reales.</p>
 
                 <div>
                   <label className="text-xs font-semibold text-[#3A2923] mb-2 block">Método de pago</label>
                   <div className="flex flex-col gap-2">
-                    {([["card", "💳 Tarjeta de crédito/débito de prueba"], ["transfer", "🏦 Transferencia simulada"], ["pending", "⏳ Pago pendiente simulado"]] as const).map(([v, l]) => (
+                    {([["card", "💳 Tarjeta de crédito o débito"], ["paypal", "PayPal"], ["transfer", "🏦 Transferencia"], ["pending", "⏳ Pagar después"]] as const).map(([v, l]) => (
                       <label key={v} className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${method === v ? "border-[#B85C38] bg-[#B85C38]/5" : "border-[#EDE8DF]"}`}>
-                        <input type="radio" name="method" value={v} checked={method === v} onChange={() => setMethod(v)} className="accent-[#B85C38]" />
+                        <input type="radio" name="method" value={v} checked={method === v} onChange={() => { setMethod(v); setErrors({}); }} className="accent-[#B85C38]" />
                         <span className="text-sm">{l}</span>
                       </label>
                     ))}
@@ -192,11 +191,12 @@ export default function Checkout() {
 
                 {method === "card" && (
                   <div className="space-y-3">
+                    <p id="payment-test-fields" className="text-xs text-[#6B6763]">Datos precargados para esta demostración.</p>
                     <div className="bg-[#F5EFE4] rounded-lg p-3 text-xs">
-                      <p className="font-semibold text-[#3A2923] mb-1">Tarjetas de prueba:</p>
+                      <p className="font-semibold text-[#3A2923] mb-1">Selecciona el resultado de la compra:</p>
                       {TEST_CARDS.map(tc => (
                         <div key={tc.number} className="flex items-center gap-2 mt-1">
-                          <button onClick={() => setCardNum(tc.number)} className="font-mono text-[#B85C38] hover:underline">{tc.number}</button>
+                          <button onClick={() => setCardNum(tc.number)} className="font-mono text-[#B85C38] hover:underline">{tc.desc}</button>
                           <span className={tc.result === "approved" ? "text-[#2F7D50]" : "text-[#B33A3A]"}>→ {tc.desc}</span>
                         </div>
                       ))}
@@ -204,30 +204,32 @@ export default function Checkout() {
                     <div>
                       <label className="text-xs font-semibold text-[#3A2923] mb-1 block">Número de tarjeta</label>
                       <input className={`input-field font-mono ${errors.cardNum ? "border-[#B33A3A]" : ""}`} placeholder="4242 4242 4242 4242" value={cardNum}
-                        onChange={e => setCardNum(e.target.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim().slice(0, 19))} maxLength={19} />
+                        readOnly aria-describedby="payment-test-fields" maxLength={19} />
                       {errors.cardNum && <p className="text-xs text-[#B33A3A] mt-1">{errors.cardNum}</p>}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="text-xs font-semibold text-[#3A2923] mb-1 block">Fecha (MM/AA)</label>
                         <input className={`input-field ${errors.cardExp ? "border-[#B33A3A]" : ""}`} placeholder="12/28" value={cardExp}
-                          onChange={e => { const v = e.target.value.replace(/\D/g,""); setCardExp(v.length >= 2 ? `${v.slice(0,2)}/${v.slice(2,4)}` : v); }} maxLength={5} />
+                          readOnly maxLength={5} />
                         {errors.cardExp && <p className="text-xs text-[#B33A3A] mt-1">{errors.cardExp}</p>}
                       </div>
                       <div>
                         <label className="text-xs font-semibold text-[#3A2923] mb-1 block">CVC</label>
                         <input className={`input-field ${errors.cardCvc ? "border-[#B33A3A]" : ""}`} placeholder="123" value={cardCvc}
-                          onChange={e => setCardCvc(e.target.value.replace(/\D/g,"").slice(0,3))} maxLength={3} />
+                          readOnly maxLength={3} />
                         {errors.cardCvc && <p className="text-xs text-[#B33A3A] mt-1">{errors.cardCvc}</p>}
                       </div>
                     </div>
                   </div>
                 )}
 
+                {method === "paypal" && <section className="rounded-xl border border-blue-200 bg-blue-50 p-5"><h3 className="text-2xl font-bold text-[#003087] mb-3">PayPal</h3><p className="text-sm mb-4">Cuenta de demostración</p><label className="text-xs">Correo de la cuenta<input className="input-field mt-1" value="comprador@voces.example" readOnly /></label><p className="text-sm my-4">Importe: ${total.toLocaleString("es-MX")} MXN</p><button type="button" className="w-full rounded-full bg-[#FFC439] px-4 py-3 font-semibold text-[#003087]" onClick={()=>{setPaypalAuthorized(true);setErrors({});}}>{paypalAuthorized ? "Pago autorizado ✓" : "Autorizar pago"}</button>{errors.paypal&&<p className="text-red-700 text-sm mt-2">{errors.paypal}</p>}</section>}
+                {method === "transfer" && <section className="rounded-xl border p-4"><h3 className="font-semibold">Transferencia</h3><p className="text-sm mt-2">La referencia se asignará al confirmar el pedido. En esta demostración no debes realizar depósitos.</p></section>}
                 {payResult === "declined" && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
                     <p className="text-[#B33A3A] font-semibold mb-1">Pago rechazado</p>
-                    <p className="text-sm text-[#B33A3A] mb-3">Usa la tarjeta 4242... para un pago aprobado.</p>
+                    <p className="text-sm text-[#B33A3A] mb-3">Selecciona Pago aprobado para reintentar.</p>
                     <button onClick={() => setPayResult(null)} className="btn-primary text-sm">Reintentar</button>
                   </div>
                 )}

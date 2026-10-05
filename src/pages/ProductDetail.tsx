@@ -120,6 +120,7 @@ export default function ProductDetail() {
             <div className="flex items-start gap-3 mb-3">
               <div className="flex-1">
                 <span className="text-xs text-[#315C4C] font-semibold bg-[#315C4C]/10 px-2 py-0.5 rounded-full">{product.category}</span>
+                {product.certificate_status === "approved" && <p className="text-xs text-[#315C4C] mt-3">Documento de autenticidad revisado por la plataforma.</p>}
                 <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#3A2923] mt-2 leading-tight">{product.name}</h1>
               </div>
             </div>

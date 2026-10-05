@@ -247,6 +247,636 @@
       "gallery": [
         "/demo/productos/mantel.png"
       ]
+    },
+    {
+      "id": "demo_producto_camino-mesa",
+      "producer_id": "demo_taller_ana",
+      "name": "Camino de mesa de algodón crudo con franjas terracota y flecos",
+      "category": "Textiles y bordados",
+      "description": "Camino de mesa de algodón crudo con franjas terracota y flecos. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 180,
+      "stock": 5,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/camino-mesa.png",
+      "gallery": [
+        "/demo/productos/camino-mesa.png"
+      ]
+    },
+    {
+      "id": "demo_producto_cojin-bordado",
+      "producer_id": "demo_taller_ana",
+      "name": "Funda de cojín cuadrada beige con bordado floral azul y amarillo",
+      "category": "Textiles y bordados",
+      "description": "Funda de cojín cuadrada beige con bordado floral azul y amarillo. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 255,
+      "stock": 6,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/cojin-bordado.png",
+      "gallery": [
+        "/demo/productos/cojin-bordado.png"
+      ]
+    },
+    {
+      "id": "demo_producto_servilletas",
+      "producer_id": "demo_taller_ana",
+      "name": "Juego de cuatro servilletas de algodón blanco con bordes verdes",
+      "category": "Textiles y bordados",
+      "description": "Juego de cuatro servilletas de algodón blanco con bordes verdes. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 330,
+      "stock": 7,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/servilletas.png",
+      "gallery": [
+        "/demo/productos/servilletas.png"
+      ]
+    },
+    {
+      "id": "demo_producto_estuche-textil",
+      "producer_id": "demo_taller_ana",
+      "name": "Estuche pequeño con cierre, tejido rayado azul y blanco de algodón",
+      "category": "Textiles y bordados",
+      "description": "Estuche pequeño con cierre, tejido rayado azul y blanco de algodón. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 405,
+      "stock": 8,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/estuche-textil.png",
+      "gallery": [
+        "/demo/productos/estuche-textil.png"
+      ]
+    },
+    {
+      "id": "demo_producto_monedero",
+      "producer_id": "demo_taller_ana",
+      "name": "Monedero rectangular pequeño tejido de algodón color coral con cierre",
+      "category": "Textiles y bordados",
+      "description": "Monedero rectangular pequeño tejido de algodón color coral con cierre. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 480,
+      "stock": 9,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/monedero.png",
+      "gallery": [
+        "/demo/productos/monedero.png"
+      ]
+    },
+    {
+      "id": "demo_producto_hamaca",
+      "producer_id": "demo_taller_ana",
+      "name": "Hamaca tejida de algodón color crema y turquesa, extendida entre dos soportes fuera del encuadre",
+      "category": "Textiles y bordados",
+      "description": "Hamaca tejida de algodón color crema y turquesa, extendida entre dos soportes fuera del encuadre. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 1450,
+      "stock": 10,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/hamaca.png",
+      "gallery": [
+        "/demo/productos/hamaca.png"
+      ]
+    },
+    {
+      "id": "demo_producto_blusa-bordada",
+      "producer_id": "demo_taller_ana",
+      "name": "Blusa blanca de algodón con bordado floral sencillo alrededor del cuello, presentada en percha",
+      "category": "Textiles y bordados",
+      "description": "Blusa blanca de algodón con bordado floral sencillo alrededor del cuello, presentada en percha. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 630,
+      "stock": 11,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/blusa-bordada.png",
+      "gallery": [
+        "/demo/productos/blusa-bordada.png"
+      ]
+    },
+    {
+      "id": "demo_producto_tapiz",
+      "producer_id": "demo_taller_ana",
+      "name": "Tapiz rectangular de algodón color beige con formas geométricas terracota y flecos, colgado en pared",
+      "category": "Textiles y bordados",
+      "description": "Tapiz rectangular de algodón color beige con formas geométricas terracota y flecos, colgado en pared. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 705,
+      "stock": 12,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/tapiz.png",
+      "gallery": [
+        "/demo/productos/tapiz.png"
+      ]
+    },
+    {
+      "id": "demo_producto_tabla-madera",
+      "producer_id": "demo_taller_mateo",
+      "name": "Tabla de madera para servir rectangular con mango y veta natural",
+      "category": "Madera",
+      "description": "Tabla de madera para servir rectangular con mango y veta natural. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 180,
+      "stock": 13,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/tabla-madera.png",
+      "gallery": [
+        "/demo/productos/tabla-madera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_cucharas",
+      "producer_id": "demo_taller_mateo",
+      "name": "Juego de tres cucharas de madera talladas de diferentes tamaños",
+      "category": "Madera",
+      "description": "Juego de tres cucharas de madera talladas de diferentes tamaños. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 255,
+      "stock": 14,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/cucharas.png",
+      "gallery": [
+        "/demo/productos/cucharas.png"
+      ]
+    },
+    {
+      "id": "demo_producto_bandeja",
+      "producer_id": "demo_taller_mateo",
+      "name": "Bandeja ovalada de madera con asas integradas talladas",
+      "category": "Madera",
+      "description": "Bandeja ovalada de madera con asas integradas talladas. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 330,
+      "stock": 15,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/bandeja.png",
+      "gallery": [
+        "/demo/productos/bandeja.png"
+      ]
+    },
+    {
+      "id": "demo_producto_alhajero",
+      "producer_id": "demo_taller_mateo",
+      "name": "Alhajero rectangular de madera abierto mostrando compartimentos y tapa abatible",
+      "category": "Madera",
+      "description": "Alhajero rectangular de madera abierto mostrando compartimentos y tapa abatible. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 405,
+      "stock": 16,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/alhajero.png",
+      "gallery": [
+        "/demo/productos/alhajero.png"
+      ]
+    },
+    {
+      "id": "demo_producto_marco",
+      "producer_id": "demo_taller_mateo",
+      "name": "Marco de madera rectangular con una lámina lisa beige sin texto",
+      "category": "Madera",
+      "description": "Marco de madera rectangular con una lámina lisa beige sin texto. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 480,
+      "stock": 5,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/marco.png",
+      "gallery": [
+        "/demo/productos/marco.png"
+      ]
+    },
+    {
+      "id": "demo_producto_pez-madera",
+      "producer_id": "demo_taller_mateo",
+      "name": "Figura decorativa pequeña de pez tallado en madera natural sobre base",
+      "category": "Madera",
+      "description": "Figura decorativa pequeña de pez tallado en madera natural sobre base. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 555,
+      "stock": 6,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/pez-madera.png",
+      "gallery": [
+        "/demo/productos/pez-madera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_florero-madera",
+      "producer_id": "demo_taller_mateo",
+      "name": "Florero torneado de madera natural vacío con forma cilíndrica",
+      "category": "Madera",
+      "description": "Florero torneado de madera natural vacío con forma cilíndrica. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 630,
+      "stock": 7,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/florero-madera.png",
+      "gallery": [
+        "/demo/productos/florero-madera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_platos-barro",
+      "producer_id": "demo_taller_elena",
+      "name": "Juego de dos platos de cerámica con esmalte azul turquesa",
+      "category": "Cerámica",
+      "description": "Juego de dos platos de cerámica con esmalte azul turquesa. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 705,
+      "stock": 8,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/platos-barro.png",
+      "gallery": [
+        "/demo/productos/platos-barro.png"
+      ]
+    },
+    {
+      "id": "demo_producto_jarra",
+      "producer_id": "demo_taller_elena",
+      "name": "Jarra de cerámica terracota con asa y pico, acabado mate",
+      "category": "Cerámica",
+      "description": "Jarra de cerámica terracota con asa y pico, acabado mate. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 180,
+      "stock": 9,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/jarra.png",
+      "gallery": [
+        "/demo/productos/jarra.png"
+      ]
+    },
+    {
+      "id": "demo_producto_maceta",
+      "producer_id": "demo_taller_elena",
+      "name": "Maceta redonda de barro terracota con plato, sin planta",
+      "category": "Cerámica",
+      "description": "Maceta redonda de barro terracota con plato, sin planta. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 255,
+      "stock": 10,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/maceta.png",
+      "gallery": [
+        "/demo/productos/maceta.png"
+      ]
+    },
+    {
+      "id": "demo_producto_azucarera",
+      "producer_id": "demo_taller_elena",
+      "name": "Azucarera de cerámica crema con tapa y cuchara pequeña",
+      "category": "Cerámica",
+      "description": "Azucarera de cerámica crema con tapa y cuchara pequeña. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 330,
+      "stock": 11,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/azucarera.png",
+      "gallery": [
+        "/demo/productos/azucarera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_sahumador",
+      "producer_id": "demo_taller_elena",
+      "name": "Sahumador de barro de diseño simple con perforaciones, sin humo",
+      "category": "Cerámica",
+      "description": "Sahumador de barro de diseño simple con perforaciones, sin humo. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 405,
+      "stock": 12,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/sahumador.png",
+      "gallery": [
+        "/demo/productos/sahumador.png"
+      ]
+    },
+    {
+      "id": "demo_producto_cuenco-ceramica",
+      "producer_id": "demo_taller_elena",
+      "name": "Cuenco de cerámica con esmalte blanco y borde azul",
+      "category": "Cerámica",
+      "description": "Cuenco de cerámica con esmalte blanco y borde azul. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 480,
+      "stock": 13,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/cuenco-ceramica.png",
+      "gallery": [
+        "/demo/productos/cuenco-ceramica.png"
+      ]
+    },
+    {
+      "id": "demo_producto_jabonera",
+      "producer_id": "demo_taller_elena",
+      "name": "Jabonera rectangular de cerámica turquesa con canales de drenaje",
+      "category": "Cerámica",
+      "description": "Jabonera rectangular de cerámica turquesa con canales de drenaje. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 555,
+      "stock": 14,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/jabonera.png",
+      "gallery": [
+        "/demo/productos/jabonera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_florero-barro",
+      "producer_id": "demo_taller_elena",
+      "name": "Florero alto de barro terracota con una franja de esmalte blanco",
+      "category": "Cerámica",
+      "description": "Florero alto de barro terracota con una franja de esmalte blanco. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 630,
+      "stock": 15,
+      "status": "published",
+      "materials": [
+        "Barro y esmalte"
+      ],
+      "technique": "Modelado y esmaltado",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x25",
+      "featured_image": "/demo/productos/florero-barro.png",
+      "gallery": [
+        "/demo/productos/florero-barro.png"
+      ]
+    },
+    {
+      "id": "demo_producto_sombrero",
+      "producer_id": "demo_taller_lucia",
+      "name": "Sombrero de palma natural con cinta de algodón marrón",
+      "category": "Fibras naturales",
+      "description": "Sombrero de palma natural con cinta de algodón marrón. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 705,
+      "stock": 16,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/sombrero.png",
+      "gallery": [
+        "/demo/productos/sombrero.png"
+      ]
+    },
+    {
+      "id": "demo_producto_bolsa-palma",
+      "producer_id": "demo_taller_lucia",
+      "name": "Bolsa rectangular de palma trenzada con dos asas redondas",
+      "category": "Fibras naturales",
+      "description": "Bolsa rectangular de palma trenzada con dos asas redondas. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 180,
+      "stock": 5,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/bolsa-palma.png",
+      "gallery": [
+        "/demo/productos/bolsa-palma.png"
+      ]
+    },
+    {
+      "id": "demo_producto_abanico",
+      "producer_id": "demo_taller_lucia",
+      "name": "Abanico de palma tejido de forma circular con mango corto",
+      "category": "Fibras naturales",
+      "description": "Abanico de palma tejido de forma circular con mango corto. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 255,
+      "stock": 6,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/abanico.png",
+      "gallery": [
+        "/demo/productos/abanico.png"
+      ]
+    },
+    {
+      "id": "demo_producto_panera",
+      "producer_id": "demo_taller_lucia",
+      "name": "Panera ovalada de fibras vegetales trenzadas con borde elevado",
+      "category": "Fibras naturales",
+      "description": "Panera ovalada de fibras vegetales trenzadas con borde elevado. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 330,
+      "stock": 7,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/panera.png",
+      "gallery": [
+        "/demo/productos/panera.png"
+      ]
+    },
+    {
+      "id": "demo_producto_lapicero",
+      "producer_id": "demo_taller_lucia",
+      "name": "Portalápices cilíndrico de fibras vegetales trenzadas vacío",
+      "category": "Fibras naturales",
+      "description": "Portalápices cilíndrico de fibras vegetales trenzadas vacío. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 405,
+      "stock": 8,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/lapicero.png",
+      "gallery": [
+        "/demo/productos/lapicero.png"
+      ]
+    },
+    {
+      "id": "demo_producto_posavasos-fibra",
+      "producer_id": "demo_taller_lucia",
+      "name": "Juego de seis posavasos redondos de fibras naturales trenzadas",
+      "category": "Fibras naturales",
+      "description": "Juego de seis posavasos redondos de fibras naturales trenzadas. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 480,
+      "stock": 9,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/posavasos-fibra.png",
+      "gallery": [
+        "/demo/productos/posavasos-fibra.png"
+      ]
+    },
+    {
+      "id": "demo_producto_cesto-tapa",
+      "producer_id": "demo_taller_lucia",
+      "name": "Cesto redondo de fibras vegetales con tapa y pequeño pomo",
+      "category": "Fibras naturales",
+      "description": "Cesto redondo de fibras vegetales con tapa y pequeño pomo. Pieza de catálogo de demostración con acabado artesanal y variaciones propias del trabajo manual. Fotografía generada para el proyecto escolar.",
+      "price": 555,
+      "stock": 10,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días",
+      "package_weight": 0.4,
+      "package_dimensions": "35x25x15",
+      "featured_image": "/demo/productos/cesto-tapa.png",
+      "gallery": [
+        "/demo/productos/cesto-tapa.png"
+      ]
     }
   ]
 }

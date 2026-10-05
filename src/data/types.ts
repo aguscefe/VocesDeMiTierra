@@ -46,6 +46,7 @@ export interface Product {
   production_time: string;
   package_weight: number;
   package_dimensions: string;
+  certificate_status?: "pending" | "approved" | "rejected" | null;
   featured_image: string;
   gallery: string[];
   created_at: string;
@@ -105,7 +106,7 @@ export interface PaymentSandbox {
   id: string;
   order_id: string;
   sandbox_transaction_id: string;
-  method: "card" | "transfer" | "pending";
+  method: "card" | "transfer" | "pending" | "paypal";
   status: "pending" | "approved" | "declined" | "refunded";
   amount: number;
   card_last_four?: string;
@@ -162,7 +163,12 @@ export interface SupportTicket {
   created_at: string;
 }
 
+export interface Certificate {
+ id: string; product_id: string; producer_id: string; original_name: string; status: "pending" | "approved" | "rejected"; review_notes?: string; reviewed_at?: string; download_url: string;
+}
+
 export interface AppStore {
+  certificates: Certificate[];
   users: User[];
   producer_profiles: ProducerProfile[];
   products: Product[];

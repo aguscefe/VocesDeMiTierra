@@ -39,7 +39,7 @@ const PRODUCER_PHOTOS = [
   "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&auto=format",
 ];
 
-export const SEED_DATA: AppStore = {
+export const SEED_DATA: AppStore = { certificates: [],
  consents: [], audit_logs: [],
   users: [
     { id: "u1", name: "María González", email: "consumidor@vocesdemo.mx", role: "consumer", phone: "998-100-0001", status: "active", created_at: "2026-01-15", last_login: "2026-08-28" },

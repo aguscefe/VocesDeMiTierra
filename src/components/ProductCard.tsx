@@ -15,12 +15,12 @@ export default function ProductCard({ product, producer }: Props) {
   return (
     <div className="card flex flex-col group">
       <div className="relative overflow-hidden aspect-square">
-        <ImageWithFallback src={product.featured_image} alt={product.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <ImageWithFallback loading="lazy" src={product.featured_image} alt={product.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           <span className="inline-flex items-center gap-1 bg-[#315C4C] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
             <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            Procedencia declarada
+            {product.certificate_status === "approved" ? "Documento validado" : "Procedencia declarada"}
           </span>
         </div>
         {user && (
