@@ -134,4 +134,55 @@ class MarketplaceTest extends TestCase {
   $this->postJson('/api/transcribe',['audio'=>\Illuminate\Http\UploadedFile::fake()->createWithContent('bad.wav','invalid')])->assertUnprocessable();
   $this->postJson('/api/transcribe',['audio'=>$file])->assertStatus(503);
  }
+ public function test_sales_demo_is_consistent_idempotent_and_scoped_and_accepts_new_buyers(): void {
+  $_ENV['DEMO_PASSWORD']=$_SERVER['DEMO_PASSWORD']='FixturePass123';
+  $_ENV['DEMO_CUSTOMERS_PASSWORD']=$_SERVER['DEMO_CUSTOMERS_PASSWORD']='ClientPass123';
+  try {
+   $this->seed(\Database\Seeders\CatalogDemoSeeder::class);
+   $this->seed(\Database\Seeders\SalesDemoSeeder::class);
+   $this->assertDatabaseCount('orders',40);$this->assertDatabaseCount('payments',40);$this->assertDatabaseCount('shipments',20);
+   $this->assertSame(10,DB::table('users')->where('role','consumer')->count());
+   $admin=User::where('email','admin@gmail.com')->firstOrFail();$hash=$admin->password;
+   $this->assertTrue(Hash::check('ClientPass123',$hash));
+   $stock=DB::table('products')->sum('stock');
+   foreach(DB::table('orders')->get() as $order){
+    $this->assertEquals((float)$order->subtotal+(float)$order->shipping,(float)$order->total);
+    $this->assertEquals((float)$order->subtotal-(float)$order->platform_commission,(float)$order->producer_net);
+    $this->assertEquals((float)$order->subtotal,DB::table('order_items')->where('order_id',$order->id)->selectRaw('SUM(quantity*unit_price) AS amount')->value('amount'));
+    $this->assertStringContainsString('Quintana Roo',$order->origin_address);$this->assertStringContainsString('Quintana Roo',$order->consumer_address);
+   }
+   DB::table('orders')->where('id','demo_venta_01_3')->update(['status'=>'preparing']);
+   $_ENV['DEMO_CUSTOMERS_PASSWORD']=$_SERVER['DEMO_CUSTOMERS_PASSWORD']='OtherPass123';
+   $this->seed(\Database\Seeders\SalesDemoSeeder::class);
+   $this->assertDatabaseCount('orders',40);$this->assertDatabaseCount('payments',40);
+   $this->assertEquals($stock,DB::table('products')->sum('stock'));
+   $this->assertEquals($hash,$admin->fresh()->password);$this->assertDatabaseHas('orders',['id'=>'demo_venta_01_3','status'=>'preparing']);
+   $customer=User::findOrFail('demo_cliente_01');
+   $state=$this->actingAs($customer)->getJson('/api/state')->assertOk();
+   $this->assertCount(4,$state->json('store.orders'));$this->assertCount(4,$state->json('store.payments'));
+   $state->assertJsonMissingPath('store.producer_profiles.0.shipping_address');
+   foreach($state->json('store.orders') as $order)$this->assertSame($customer->id,$order['consumer_id']);
+   $seller=User::findOrFail('demo_user_ana');$state=$this->actingAs($seller)->getJson('/api/state')->assertOk();
+   foreach($state->json('store.orders') as $order)$this->assertSame('demo_taller_ana',$order['producer_id']);
+   $this->actingAs($admin)->getJson('/api/state')->assertOk()->assertJsonCount(40,'store.orders');
+   $this->postJson('/api/register',['name'=>'Nuevo comprador','email'=>'nuevo@voces.example','password'=>'NewBuyer123','phone'=>'9980000000','role'=>'consumer','consent_platform'=>true])->assertCreated();
+   $buyer=User::where('email','nuevo@voces.example')->firstOrFail();$product=DB::table('products')->where('stock','>',0)->first();
+   $this->actingAs($buyer)->putJson('/api/cart',['items'=>[['product_id'=>$product->id,'quantity'=>1]]])->assertOk();
+   $this->postJson('/api/checkout',['address'=>'Calle Nueva, Cancún, Quintana Roo','postal'=>'77500','method'=>'paypal','scenario'=>'approved','idempotency_key'=>'e590fdeb-6a60-4799-8e88-18984c539d43'])->assertCreated();
+   $this->assertDatabaseCount('orders',41);$this->assertDatabaseCount('payments',41);
+   $order=DB::table('orders')->where('consumer_id',$buyer->id)->first();$this->assertNotEmpty($order->origin_address);
+   $this->actingAs($admin)->getJson('/api/state')->assertJsonCount(41,'store.orders');
+  }finally {unset($_ENV['DEMO_PASSWORD'],$_SERVER['DEMO_PASSWORD'],$_ENV['DEMO_CUSTOMERS_PASSWORD'],$_SERVER['DEMO_CUSTOMERS_PASSWORD']);}
+ }
+ public function test_shipping_addresses_are_saved_and_order_origin_is_a_snapshot(): void {
+  [$buyer,$seller]=$this->fixture();
+  $this->actingAs($seller)->putJson('/api/profile',['name'=>'Productor','phone'=>'9980000000','shipping_address'=>'Calle Uno, Bacalar, Quintana Roo'])->assertOk();
+  $this->actingAs($buyer)->putJson('/api/profile',['name'=>'Comprador','phone'=>'9980000000','delivery_address'=>'Calle Dos, Cancún, Quintana Roo','delivery_postal'=>'77500'])->assertOk();
+  $this->assertDatabaseHas('users',['id'=>$buyer->id,'delivery_postal'=>'77500']);
+  $this->putJson('/api/cart',['items'=>[['product_id'=>'piece','quantity'=>1]]])->assertOk();
+  $this->postJson('/api/checkout',['address'=>'Calle Dos, Cancún, Quintana Roo','postal'=>'77500','method'=>'card','scenario'=>'approved','idempotency_key'=>'f590fdeb-6a60-4799-8e88-18984c539d43'])->assertCreated();
+  $this->assertDatabaseHas('orders',['origin_address'=>'Calle Uno, Bacalar, Quintana Roo']);
+  DB::table('producer_profiles')->where('id','profile')->update(['shipping_address'=>'Otra dirección']);
+  $this->assertDatabaseHas('orders',['origin_address'=>'Calle Uno, Bacalar, Quintana Roo']);
+ }
 }

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "demo_cliente_01",
+    "name": "Sofía Mendoza",
+    "email": "cliente01@voces.example",
+    "address": "Calle Artesanías 100, colonia Centro, Cancún, Quintana Roo",
+    "postal": "77500"
+  },
+  {
+    "id": "demo_cliente_02",
+    "name": "Diego Ramírez",
+    "email": "cliente02@voces.example",
+    "address": "Calle Artesanías 101, colonia Centro, Playa del Carmen, Quintana Roo",
+    "postal": "77710"
+  },
+  {
+    "id": "demo_cliente_03",
+    "name": "Valeria López",
+    "email": "cliente03@voces.example",
+    "address": "Calle Artesanías 102, colonia Centro, Chetumal, Quintana Roo",
+    "postal": "77000"
+  },
+  {
+    "id": "demo_cliente_04",
+    "name": "Carlos Herrera",
+    "email": "cliente04@voces.example",
+    "address": "Calle Artesanías 103, colonia Centro, Bacalar, Quintana Roo",
+    "postal": "77930"
+  },
+  {
+    "id": "demo_cliente_05",
+    "name": "Mariana Pérez",
+    "email": "cliente05@voces.example",
+    "address": "Calle Artesanías 104, colonia Centro, Tulum, Quintana Roo",
+    "postal": "77760"
+  },
+  {
+    "id": "demo_cliente_06",
+    "name": "Luis Aguilar",
+    "email": "cliente06@voces.example",
+    "address": "Calle Artesanías 105, colonia Centro, Cozumel, Quintana Roo",
+    "postal": "77600"
+  },
+  {
+    "id": "demo_cliente_07",
+    "name": "Camila Torres",
+    "email": "cliente07@voces.example",
+    "address": "Calle Artesanías 106, colonia Centro, Felipe Carrillo Puerto, Quintana Roo",
+    "postal": "77200"
+  },
+  {
+    "id": "demo_cliente_08",
+    "name": "Jorge Medina",
+    "email": "cliente08@voces.example",
+    "address": "Calle Artesanías 107, colonia Centro, José María Morelos, Quintana Roo",
+    "postal": "77890"
+  },
+  {
+    "id": "demo_cliente_09",
+    "name": "Daniela Cruz",
+    "email": "cliente09@voces.example",
+    "address": "Calle Artesanías 108, colonia Centro, Isla Mujeres, Quintana Roo",
+    "postal": "77400"
+  },
+  {
+    "id": "demo_cliente_10",
+    "name": "Andrés Salazar",
+    "email": "cliente10@voces.example",
+    "address": "Calle Artesanías 109, colonia Centro, Puerto Morelos, Quintana Roo",
+    "postal": "77580"
+  }
+]

@@ -22,3 +22,7 @@ Artisan::command('voces:admin {email} {--name=Administrador}', function () {
 Artisan::command('voces:demo', function () {
  return $this->call('db:seed',['--class'=>\Database\Seeders\CatalogDemoSeeder::class,'--force'=>true]);
 })->purpose('Agregar catálogo ficticio sin borrar cuentas ni duplicar productos');
+
+Artisan::command('voces:ventas-demo', function () {
+ return $this->call('db:seed',['--class'=>\Database\Seeders\SalesDemoSeeder::class,'--force'=>true]);
+})->purpose('Precargar 10 clientes, administrador e historial de 40 compras sin duplicarlos');

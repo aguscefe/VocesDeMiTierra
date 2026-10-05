@@ -19,8 +19,8 @@ export default function Checkout() {
 
   const [step, setStep] = useState<Step>("datos");
   const [name, setName] = useState(user?.name || "");
-  const [address, setAddress] = useState("");
-  const [postal, setPostal] = useState("");
+  const [address, setAddress] = useState(user?.delivery_address || "");
+  const [postal, setPostal] = useState(user?.delivery_postal || "");
   const [phone, setPhone] = useState(user?.phone || "");
   const [method, setMethod] = useState<PayMethod>("card");
   const [cardNum, setCardNum] = useState("4242 4242 4242 4242");

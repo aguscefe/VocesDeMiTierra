@@ -20,7 +20,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return () => window.removeEventListener("vmt-state", update);
  }, []);
  useEffect(() => {
-  if(!user || !["admin","producer"].includes(user.role))return;
+  if(!user)return;
   let active=true, fetching=false;
   const poll=async()=>{if(!active||document.hidden||fetching)return;fetching=true;try{await refreshStore();}catch{}finally{fetching=false;}};
   const interval=window.setInterval(()=>void poll(),30000);

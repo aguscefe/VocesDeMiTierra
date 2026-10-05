@@ -2,8 +2,8 @@
 set -euo pipefail
 cd /var/www/vocesdemitierra
 available=$(awk '/MemAvailable:/ {print $2}' /proc/meminfo)
-if [ "$available" -lt 8388608 ]; then
-  echo "Se necesitan al menos 8 GiB disponibles para instalar este modelo sin afectar otras páginas. No se modificó el servidor."
+if [ "$available" -lt 6291456 ]; then
+  echo "Se necesitan al menos 6 GiB disponibles para instalar este modelo sin afectar otras páginas. No se modificó el servidor."
   exit 1
 fi
 apt-get update
@@ -24,9 +24,9 @@ Group=www-data
 WorkingDirectory=/var/www/vocesdemitierra/services/maya-asr
 Environment=HF_HOME=/var/www/vocesdemitierra/services/maya-asr/cache
 ExecStart=/var/www/vocesdemitierra/services/maya-asr/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8765 --workers 1
-Restart=on-failure
+Restart=no
 RestartSec=30
-MemoryMax=8G
+MemoryMax=6G
 CPUQuota=150%
 NoNewPrivileges=true
 PrivateTmp=true

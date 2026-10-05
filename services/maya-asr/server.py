@@ -8,8 +8,12 @@ from fastapi import FastAPI, Request, HTTPException
 from transformers import AutoProcessor, Wav2Vec2ForCTC
 
 torch.set_num_threads(2)
-processor = AutoProcessor.from_pretrained("facebook/mms-1b-all", target_lang="yua")
-model = Wav2Vec2ForCTC.from_pretrained("facebook/mms-1b-all", target_lang="yua", ignore_mismatched_sizes=True, low_cpu_mem_usage=True)
+processor = AutoProcessor.from_pretrained("facebook/mms-1b-all")
+model = Wav2Vec2ForCTC.from_pretrained("facebook/mms-1b-all", low_cpu_mem_usage=True)
+processor.tokenizer.set_target_lang("yua")
+model.load_adapter("yua")
+if any(p.is_meta for p in model.parameters()):
+    raise RuntimeError("El modelo tiene pesos sin cargar; no se puede iniciar el reconocimiento.")
 model.eval()
 lock = threading.Lock()
 app = FastAPI()

@@ -11,12 +11,15 @@ export interface User {
   created_at: string;
   last_login: string;
   avatar_url?: string;
+  delivery_address?: string;
+  delivery_postal?: string;
 }
 
 export interface ProducerProfile {
   id: string;
   user_id: string;
   workshop_name: string;
+  shipping_address?: string;
   artisan_name?: string;
   biography: string;
   community: string;
@@ -98,6 +101,7 @@ export interface Order {
   estimated_delivery: string;
   items: CartItem[];
   consumer_address?: string;
+  origin_address?: string;
   tracking_number?: string;
   carrier?: string;
 }

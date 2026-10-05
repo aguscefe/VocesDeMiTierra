@@ -27,7 +27,7 @@ sudo -u deploy npm run build
 bash services/maya-asr/install.sh
 ```
 
-El instalador requiere **8 GiB de RAM disponibles**, conexión a Hugging Face/PyPI y espacio para aproximadamente 4 GB de modelo más dependencias. Si falta RAM, se detiene antes de modificar servicios: en ese VPS el dictado maya todavía no estará activo. No abras el puerto 8765 al público. El servicio escucha únicamente en localhost. No modifica la otra página ni Nginx.
+El instalador requiere **6 GiB de RAM disponibles**, conexión a Hugging Face/PyPI y espacio para aproximadamente 4 GB de modelo más dependencias. Si falta RAM, se detiene antes de modificar servicios: en ese VPS el dictado maya todavía no estará activo. No abras el puerto 8765 al público. El servicio escucha únicamente en localhost. No modifica la otra página ni Nginx.
 
 La primera carga puede tardar varios minutos. Verifica:
 
@@ -42,4 +42,4 @@ Debe responder `{"status":"ok","language":"yua"}`. Después abre la web, cambia 
 
 Modelo oficial: https://huggingface.co/facebook/mms-1b-all (Meta, licencia CC-BY-NC-4.0; previsto para este proyecto académico). Las transcripciones pueden contener errores: revisión humana antes de traducir. La voz de salida maya conserva la lectura aproximada anterior si el navegador no tiene voz yua.
 
-Se comprobaron TypeScript, compilación de producción y pruebas del backend con servicio simulado. No se descargó ni ejecutó el modelo de ~4 GB en esta sesión; falta verificar el reconocimiento con una grabación maya real en el VPS. No se garantiza precisión lingüística ni velocidad de inferencia; si tu CPU supera 50 segundos, se informa un error y permite reintentar con una frase más corta.
+Se comprobaron TypeScript, compilación de producción y pruebas del backend con servicio simulado. La carga del adaptador yua se corrigió usando set_target_lang y load_adapter. El VPS del usuario ya respondió HTTP 200 a una transcripción; la precisión lingüística requiere evaluación con hablantes. No se garantiza precisión lingüística ni velocidad de inferencia; si tu CPU supera 50 segundos, se informa un error y permite reintentar con una frase más corta.
