@@ -57,18 +57,14 @@ export function AboutUs() {
       <p>Voces de mi Tierra es una plataforma digital de comercialización artesanal que conecta el trabajo artesanal con quienes buscan piezas con identidad.</p>
       <p>Nuestro propósito es conectar a artesanas y artesanos de comunidades originarias de Quintana Roo con compradores de todo México y el mundo, preservando la identidad cultural y garantizando un pago justo al productor.</p>
       <p>La plataforma no pretende certificar la autenticidad de ninguna pieza, ni substituye la relación directa entre el artesano y la comunidad. Su función es facilitar la visibilidad digital y la comercialización con respeto a la procedencia cultural declarada.</p>
-      <div className="bg-[#F5EFE4] rounded-xl p-4 text-sm">
-        <p className="font-semibold text-[#3A2923] mb-2">Dato importante:</p>
-        <p>El catálogo inicial contiene registros de ejemplo. Las fotografías de oficios son referencias visuales y no acreditan por sí mismas la identidad ni la procedencia de una pieza.</p>
-      </div>
     </PageShell>
   );
 }
 
 export function FAQ() {
   const faqs = [
-    { q: "¿Los pagos son reales?", a: "No. La plataforma opera en modo de prueba. No se realizan cargos reales. Usa la tarjeta de prueba 4242 4242 4242 4242 para simular un pago aprobado." },
-    { q: "¿Los productores son reales?", a: "La plataforma permite el registro de productores. El catálogo inicial contiene también cuentas de ejemplo; consulta la información y los documentos disponibles en cada ficha." },
+    { q: "¿Dónde consulto mis pedidos?", a: "En tu panel encontrarás el resumen de tus compras, sus productos y el estado de cada pedido." },
+    { q: "¿Dónde conozco a los productores?", a: "En la sección Productores puedes explorar los talleres y consultar sus piezas, materiales y técnicas de elaboración." },
     { q: "¿Cómo funciona el QR?", a: "Cada producto tiene un código QR único. Al escanearlo, accedes directamente a la ficha pública del producto con información cultural autorizada." },
     { q: "¿Qué es la trazabilidad cultural?", a: "Es la información de procedencia declarada por el productor: quién hizo la pieza, en qué comunidad, con qué técnica y materiales. No es una certificación oficial." },
     { q: "¿Por qué el texto en maya está como 'pendiente de validación'?", a: "Respetamos la lengua maya y no publicamos traducciones sin validación de hablantes autorizados. La plataforma está preparada para mostrar contenido bilingüe cuando esté validado." },
