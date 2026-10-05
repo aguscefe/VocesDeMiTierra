@@ -51,7 +51,7 @@ export default function Catalog() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF8]">
-      <CraftBanner title="Artesanías que cuentan historias" description="Encuentra una pieza que conecte contigo. Texturas, colores y manos de Quintana Roo." tone="coral" image="/demo/artesanos/lucia.png"/>
+      <CraftBanner variant="catalog" title="Artesanías que cuentan historias" description="Encuentra una pieza que conecte contigo. Texturas, colores y manos de Quintana Roo." tone="coral" image="/design/fotos/textiles-muestra.png"/>
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Filtros sidebar */}
