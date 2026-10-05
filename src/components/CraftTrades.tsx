@@ -1,0 +1,10 @@
+import { useState, useRef } from "react";
+const trades=[
+ {name:"Bordado y textiles",image:"rebozo",description:"Hilos, puntadas y tejidos que aportan textura y color a prendas y accesorios."},
+ {name:"Trabajo en madera",image:"cuenco",description:"Tallado, lijado y acabado de piezas que conservan la veta de la madera."},
+ {name:"Cerámica",image:"vasija",description:"Modelado del barro, cocción y acabados que dan forma a objetos de uso y decoración."},
+ {name:"Tejido de fibras",image:"abanico",description:"Entrelazado de fibras para crear abanicos, canastas y otros objetos cotidianos."},
+ {name:"Accesorios tejidos",image:"bolsa-textil",description:"Piezas de hilo y tejido que combinan utilidad, patrones y detalles hechos a mano."},
+];
+export default function CraftTrades(){return <section className="trades-section"><div className="text-center mb-8"><span className="eyebrow">Materiales que se transforman</span><h2 className="font-display text-3xl mt-3 text-[#3A2923]">Descubre los oficios</h2><p className="text-sm text-[#6B6763] mt-3">Acércate a cada pieza para descubrir cómo toma forma.</p></div><div className="trades-grid">{trades.map(t=><Trade key={t.name} trade={t}/>)}</div></section>}
+function Trade({trade:t}:{trade:typeof trades[number]}){const [open,setOpen]=useState(false);const pointer=useRef(false);return <article className={`trade-card ${open?"trade-open":""}`} onPointerEnter={e=>{if(e.pointerType==="mouse")setOpen(true);}} onPointerLeave={e=>{if(e.pointerType==="mouse")setOpen(false);}} onFocus={()=>{if(!pointer.current)setOpen(true);}} onBlur={()=>{pointer.current=false;setOpen(false);}}><button onPointerDown={()=>{pointer.current=true;}} aria-expanded={open} aria-label={`Conocer ${t.name}`} aria-describedby={`trade-${t.image}`} onClick={()=>setOpen(v=>!v)}><img src={`/demo/productos/${t.image}.png`} alt={t.name} loading="lazy"/><span className="trade-name">{t.name}</span><span id={`trade-${t.image}`} className="trade-description">{t.description}</span></button></article>}

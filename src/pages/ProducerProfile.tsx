@@ -1,3 +1,4 @@
+import { producerPortrait } from "../utils/producerPortrait";
 import { useApp as useDataRefresh } from "../context/AppContext";
 import { useParams, Link } from "react-router";
 import { getStore } from "../data/store";
@@ -32,7 +33,7 @@ export default function ProducerProfile() {
       <div className="artisan-profile-hero py-14 px-4">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center sm:items-start gap-6">
           <div className="relative shrink-0">
-            <ImageWithFallback src={producer.profile_image} alt={producer.workshop_name} className="w-28 h-28 rounded-full object-cover border-4 border-white/30" />
+            <ImageWithFallback src={producerPortrait(producer).src} alt={producerPortrait(producer).reference?`Imagen del oficio: ${producer.craft_types.join(" · ")}`:producer.workshop_name} className="w-28 h-28 rounded-full object-cover border-4 border-white/30" />
             {producer.authorization_status === "approved" && (
               <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-[#2F7D50] rounded-full flex items-center justify-center">
                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
@@ -41,7 +42,7 @@ export default function ProducerProfile() {
           </div>
           <div className="text-center sm:text-left text-white">
             <h1 translate="no" className="font-display text-3xl font-bold mb-1">{producer.workshop_name}</h1>
-            <p translate="no" className="text-white/90 mb-2">{producer.artisan_name || user?.name}</p>
+            <p translate="no" className="text-white/90 mb-2">{producerPortrait(producer).reference?"Imagen del oficio":producer.artisan_name || user?.name}</p>
             <p translate="no" className="text-white/70 mb-3">{producer.community}, {producer.municipality}</p>
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start text-sm">
               <span className="flex items-center gap-1"><span className="text-[#D6A73C]">★</span> <strong>{avgRating}</strong> ({totalReviews} reseñas)</span>

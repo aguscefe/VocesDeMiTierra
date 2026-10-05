@@ -1,3 +1,4 @@
+import { producerPortrait } from "../utils/producerPortrait";
 import QRCode from "qrcode";
 import { useEffect, useRef } from "react";
 import { api } from "../data/api";
@@ -149,7 +150,7 @@ export default function ProductDetail() {
 
             {/* Info del productor */}
             <Link to={`/productor/${producer.id}`} className="detail-artisan flex items-center gap-3 bg-[#F5EFE4] rounded-xl p-4 mb-5 hover:bg-[#EDE8DF] transition-colors">
-              <ImageWithFallback src={producer.profile_image} alt={producer.workshop_name} className="w-12 h-12 rounded-full object-cover border border-[#EDE8DF]" />
+              <ImageWithFallback src={producerPortrait(producer).src} alt={producerPortrait(producer).reference?`Imagen del oficio: ${producer.craft_types.join(" · ")}`:producer.workshop_name} className="w-12 h-12 rounded-full object-cover border border-[#EDE8DF]" />
               <div>
                 <p className="font-semibold text-sm text-[#3A2923]">{producer.workshop_name}</p>
                 <p className="text-xs text-[#6B6763]">{producer.community}, {producer.municipality}</p>

@@ -1,3 +1,4 @@
+import CraftTrades from "../components/CraftTrades";
 import CraftBanner from "../components/CraftBanner";
 import ArtisanCard from "../components/ArtisanCard";
 import { useApp as useDataRefresh } from "../context/AppContext";
@@ -12,11 +13,12 @@ export default function ProducersList() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF8]">
-      <CraftBanner title="Manos, voces y talleres" description="Acércate a quienes dan forma a cada pieza y descubre su origen en Quintana Roo." image="/demo/artesanos/mateo.png"/>
+      <CraftBanner title="Manos, voces y talleres" description="Acércate a quienes dan forma a cada pieza y descubre su origen en Quintana Roo." image="/design/personas/foto-02.png"/>
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {producers.map(pp=><ArtisanCard key={pp.id} producer={pp}/>)}
         </div>
+        <CraftTrades/>
       </div>
     </div>
   );

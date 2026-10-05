@@ -299,3 +299,18 @@ body,#root{height:auto;min-height:100%;overflow-x:clip}html{overflow-x:clip}
 .translator-header{background-image:linear-gradient(110deg,#0f0a05df,#315C4Cd9),url('./imports/fondo.png');background-size:cover;background-position:center}
 .translator-conversation{background:#FFFDF8!important}.chat-user{background:linear-gradient(120deg,#B85C38,#D18B24)}
 .translator-panel{border-color:#EDE8DF!important}
+
+/* Oficios: fotografías de piezas y descripciones accesibles, sin cambiar las tarjetas de productores. */
+.trades-section{margin-top:65px;padding-top:45px;border-top:1px solid #EDE8DF}
+.trades-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+.trade-card{border:1px solid #EDE8DF;border-radius:24px;overflow:hidden;background:#F5EFE4;box-shadow:0 6px 20px #3A29230a}
+.trade-card button{display:block;position:relative;width:100%;height:270px;text-align:left;overflow:hidden}
+.trade-card img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.trade-name{position:absolute;left:14px;right:14px;bottom:14px;background:#FFFDF8ef;color:#3A2923;padding:12px;border-radius:14px;font-family:var(--font-display);font-size:16px;z-index:1;transition:bottom .25s}
+.trade-description{position:absolute;inset:auto 0 0;padding:22px 18px;color:#FFFDF8;background:#315C4Cf5;font-size:12px;line-height:1.8;transform:translateY(100%);transition:transform .25s;min-height:125px}
+.trade-open img{transform:scale(1.05)}.trade-open .trade-description{transform:translateY(0)}.trade-open .trade-name{bottom:142px}
+.trade-card button:focus-visible{outline:3px solid #D6A73C;outline-offset:-4px}
+.portrait-reference{display:block;font-size:9px;color:#8A8175;margin-top:5px}
+@media(max-width:1000px){.trades-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.trades-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.trade-card button{height:280px}.trade-name{font-size:14px}.trade-description{font-size:11px;min-height:140px;padding:18px 14px}.trade-open .trade-name{bottom:155px}}
+.portrait-button img{object-position:center 30%}
