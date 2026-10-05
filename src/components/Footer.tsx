@@ -4,7 +4,7 @@ import logoImg from "../imports/logo2.png";
 export default function Footer() {
   return (
     <footer className="bg-[#3A2923] text-[#F5EFE4] mt-16">
-      <p className="px-4 pt-5 text-center text-sm text-[#C4A99A]">Las cuentas y el catálogo precargado son de ejemplo. Las fotografías de oficios fueron aportadas para el sitio.</p>
+      <p className="px-4 pt-5 text-center text-sm text-[#C4A99A]">Proyecto escolar de demostración. Las cuentas de ejemplo, productos e imágenes generadas son ficticios.</p>
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center gap-3 mb-4">

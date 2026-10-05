@@ -2,7 +2,7 @@ import { useApp as useDataRefresh } from "../context/AppContext";
 import { useState, useRef } from "react";
 import { Link } from "react-router";
 import { getStore } from "../data/store";
-import CraftPeople from "../components/CraftPeople";
+import ArtisanCard from "../components/ArtisanCard";
 import ProductCard from "../components/ProductCard";
 import ImageWithFallback from "../components/ImageWithFallback";
 import fondoImg from "../imports/fondo.png";
@@ -49,7 +49,9 @@ export default function Home() {
     ? allPublished.slice(0, 6)
     : allPublished.filter(p => p.category === activeFilter).slice(0, 6);
 
-  
+  const featuredProducers = store.producer_profiles
+    .filter(p => p.authorization_status === "approved")
+    .slice(0, 4);
 
   return (
     <div className="min-h-screen" style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}>
@@ -126,9 +128,9 @@ export default function Home() {
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-[#3A2923]" style={{ fontFamily: "'Playfair Display', serif" }}>
               Voces que tejen <em className="color-word">identidad</em>
             </h2>
-            <p className="text-[#6B6763] mt-3">Una mirada al trabajo y a los oficios artesanales</p>
+            <p className="text-[#6B6763] mt-3">Conoce las manos y los lugares detrás de cada pieza</p>
           </div>
-          <div className="artisan-carousel"><button className="carousel-arrow" aria-label="Artesanos anteriores" onClick={()=>artisanRail.current?.scrollBy({left:-300,behavior:"smooth"})}>‹</button><div ref={artisanRail} className="artisan-rail"><CraftPeople/></div><button className="carousel-arrow" aria-label="Siguientes artesanos" onClick={()=>artisanRail.current?.scrollBy({left:300,behavior:"smooth"})}>›</button></div>
+          <div className="artisan-carousel"><button className="carousel-arrow" aria-label="Artesanos anteriores" onClick={()=>artisanRail.current?.scrollBy({left:-300,behavior:"smooth"})}>‹</button><div ref={artisanRail} className="artisan-rail">{featuredProducers.map(pp=><ArtisanCard key={pp.id} producer={pp}/>)}</div><button className="carousel-arrow" aria-label="Siguientes artesanos" onClick={()=>artisanRail.current?.scrollBy({left:300,behavior:"smooth"})}>›</button></div>
           <div className="text-center mt-8">
             <Link to="/productores" className="text-[#B85C38] font-semibold hover:underline text-sm">
               Ver todos los artesanos →
@@ -222,9 +224,9 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {[
-              { n: "01", image: "/design/fotos/bordado-proceso.png", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
-              { n: "02", image: "/design/fotos/tejido-sombreros.png", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
-              { n: "03", image: "/design/fotos/feria-textiles.png", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
+              { n: "01", image: "/demo/artesanos/ana.png", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
+              { n: "02", image: "/demo/artesanos/lucia.png", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
+              { n: "03", image: "/design/compra-artesanal.png", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
             ].map(step => (
               <div key={step.n} data-reveal className="home-step flex flex-col items-center text-center">
                 <img src={step.image} alt={step.title} className="step-photo" loading="lazy"/>
@@ -280,15 +282,15 @@ export default function Home() {
             <div className="relative h-80 lg:h-96">
               <div className="absolute top-0 left-0 w-48 h-48 rounded-2xl overflow-hidden shadow-xl"
                 style={{ background: "linear-gradient(135deg, #EF6158, #E69A35)" }}>
-                <img src="/design/fotos/bordado-proceso.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
+                <img src="/demo/artesanos/ana.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute top-16 right-0 w-44 h-44 rounded-2xl overflow-hidden shadow-xl"
                 style={{ background: "linear-gradient(135deg, #315C4C, #3A2923)" }}>
-                <img src="/design/fotos/barro-proceso.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
+                <img src="/demo/artesanos/elena.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute bottom-0 left-16 w-52 h-40 rounded-2xl overflow-hidden shadow-xl"
                 style={{ background: "linear-gradient(135deg, #3A2923, #B85C38)" }}>
-                <img src="/design/fotos/feria-madera.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
+                <img src="/demo/artesanos/mateo.png" alt="Artesano trabajando en su taller" className="w-full h-full object-cover" loading="lazy"/>
               </div>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-20 h-20 rounded-full border-4 border-[#D6A73C]/40 flex items-center justify-center">

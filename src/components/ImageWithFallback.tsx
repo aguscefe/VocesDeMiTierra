@@ -4,7 +4,6 @@ function Image({ src, alt, fallbackSrc, className, style, onLoad, onError, ...re
  const [failed, setFailed] = useState(false);
  const [fallback, setFallback] = useState(false);
  const current = fallback ? fallbackSrc : src;
- if (current?.includes("/demo/artesanos/")) return <div role="img" aria-label={alt || "Taller"} className={`workshop-monogram ${className || ""}`} style={style}><span>{(alt || "T").trim().charAt(0).toUpperCase()}</span></div>;
  if (!current || failed) return <div role="img" aria-label={alt || "Imagen no disponible"} className={`bg-[#F5EFE4] flex items-center justify-center ${className || ""}`} style={style}><span className="text-xs text-[#6B6763] p-3">Imagen no disponible</span></div>;
  // Keep the image in layout while loading: hiding a lazy image prevents loading
  // on some browsers. Native rendering also handles cache hits without onLoad races.
