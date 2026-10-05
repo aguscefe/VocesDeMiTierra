@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voces de la Tierra · Comercio justo y turismo cultural</title>
+  <meta name="description" content="Plataforma de comercio justo que conecta comunidades indígenas y artesanales de México con el mundo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css"> />
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+   <a href="#inicio" class="logo">
+  <img src="./imagenes/logo2.png" alt="Logo">
+  <span class="logo-name">VOCES DE LA TIERRA</span>
+</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio" class="nav-link active">Inicio</a>
+        <a href="#artesanos" class="nav-link">Artesanos</a>
+        <a href="#lenguas" class="nav-link">Lenguas</a>
+        <a href="#mercancias" class="nav-link">Mercancías</a>
+        <a href="#historia" class="nav-link">Historia</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn-login">
+    Iniciar sesión
+</a>
+        <button class="icon-btn" aria-label="Buscar">🔍</button>
+        <button class="icon-btn cart-btn" aria-label="Carrito">
+          🛒<span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- PANEL DEL CARRITO -->
+
+<div id="carrito-panel" class="carrito-panel">
+
+    <div class="carrito-header">
+
+        <h2>Tu carrito</h2>
+
+        <button id="cerrar-carrito">
+            ✖
+        </button>
+
+    </div>
+
+    <div id="carrito-items">
+
+        <p>Tu carrito está vacío</p>
+
+    </div>
+
+    <div class="carrito-footer">
+<div class="resumen-carrito">
+
+    <p id="subtotal-carrito">
+        Subtotal: $0 MXN
+    </p>
+
+    <p>
+        Envío: Gratis
+    </p>
+
+    <h3 id="carrito-total">
+        Total: $0 MXN
+    </h3>
+
+</div>
+
+        <button id="vaciar-carrito">
+            Vaciar carrito
+        </button> 
+        <button id="finalizar-compra">
+    Finalizar compra
+</button>
+
+    </div>
+
+</div>
+
+<!-- FIN PANEL CARRITO -->
+
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg">
+      <div class="hero-pattern"></div>
+      <div class="hero-blob blob-1"></div>
+      <div class="hero-blob blob-2"></div>
+      <div class="hero-blob blob-3"></div>
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-tagline">✦ Comercio justo · Cultura viva ✦</span>
+      <h1 class="hero-title">
+        Cada hilo cuenta<br />
+        una <span class="grad-text">historia ancestral</span>
+      </h1>
+      <p class="hero-subtitle">
+        Descubre arte, lenguas y tradiciones del sureste mexicano directamente
+        de las manos que las crean. Compra con propósito y honra a quienes
+        sostienen la memoria de un pueblo.
+      </p>
+      <div class="hero-cta">
+        <a href="#mercancias" class="btn btn-primary">Compra con propósito</a>
+        <a href="#artesanos" class="btn btn-ghost">Conoce a los artesanos →</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">42+</span>
+          <span class="stat-label">Comunidades</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">18</span>
+          <span class="stat-label">Lenguas originarias</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Comercio justo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">↓ Desliza ↓</div>
+  </section>
+
+  <!-- ============ COMUNIDADES ============ -->
+  <section class="section communities" id="artesanos">
+    <div class="section-head">
+      <span class="eyebrow">— Nuestras comunidades —</span>
+      <h2>Voces que tejen <em>identidad</em></h2>
+      <p>Pasa el cursor sobre cada artesano para ver su región de origen.</p>
+    </div>
+
+    <div class="communities-wrapper">
+      <button class="carousel-btn prev" id="prevArtesano" aria-label="Anterior">‹</button>
+
+      <div class="communities-track" id="communitiesTrack">
+        <!-- Cards se generan aquí por JS -->
+      </div>
+
+      <button class="carousel-btn next" id="nextArtesano" aria-label="Siguiente">›</button>
+
+      <!-- Mapa flotante dinámico -->
+      <div class="region-map" id="regionMap">
+        <div class="map-inner">
+          <div class="map-pin"></div>
+          <h4 id="mapRegion">Región</h4>
+          <p id="mapLocation">—</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LENGUAS ============ -->
+  <section class="section languages" id="lenguas">
+    <div class="section-head light">
+      <span class="eyebrow">— Lenguas originarias —</span>
+      <h2>Palabras que <em>laten</em></h2>
+      <p>Escucha y aprende frases en lenguas vivas de México.</p>
+    </div>
+
+    <div class="lang-grid">
+      <article class="lang-card" style="--c1:#ff6b35;--c2:#f7c548">
+        <div class="lang-glyph">ꜜ</div>
+        <h3>Maya yucateco</h3>
+        <p class="lang-phrase">«Bix a beel?»</p>
+        <span class="lang-trans">¿Cómo estás?</span>
+        <span class="lang-region">Yucatán · Quintana Roo</span>
+      </article>
+      <article class="lang-card" style="--c1:#06a77d;--c2:#7ed957">
+        <div class="lang-glyph">ʘ</div>
+        <h3>Tzotzil</h3>
+        <p class="lang-phrase">«Lekil k'inal»</p>
+        <span class="lang-trans">Buen día / Paz</span>
+        <span class="lang-region">Chiapas</span>
+      </article>
+      <article class="lang-card" style="--c1:#d62246;--c2:#ff8fa3">
+        <div class="lang-glyph">⌘</div>
+        <h3>Zapoteco</h3>
+        <p class="lang-phrase">«Padiux»</p>
+        <span class="lang-trans">Hola</span>
+        <span class="lang-region">Oaxaca</span>
+      </article>
+      <article class="lang-card" style="--c1:#5a189a;--c2:#c77dff">
+        <div class="lang-glyph">✺</div>
+        <h3>Náhuatl</h3>
+        <p class="lang-phrase">«Tlazohcamati»</p>
+        <span class="lang-trans">Gracias</span>
+        <span class="lang-region">Centro de México</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTOS / MERCANCÍAS ============ -->
+  <section class="section products" id="mercancias">
+    <div class="section-head">
+      <span class="eyebrow">— Mercancías destacadas —</span>
+      <h2>Arte hecho a <em>mano</em></h2>
+      <p>Cada pieza es única. Cada compra cambia una historia.</p>
+    </div>
+
+    <div class="filters">
+      <button class="chip active" data-filter="all">Todo</button>
+      <button class="chip" data-filter="textil">Textiles</button>
+      <button class="chip" data-filter="ceramica">Cerámica</button>
+      <button class="chip" data-filter="madera">Madera</button>
+      <button class="chip" data-filter="joyeria">Joyería</button>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+      <!-- Productos generados por JS -->
+    </div>
+  </section>
+
+  <!-- ============ HISTORIA ============ -->
+  <section class="section story" id="historia">
+    <div class="story-grid">
+      <div class="story-text">
+        <span class="eyebrow">— Nuestra historia —</span>
+        <h2>Tejer puentes entre <em>mundos</em></h2>
+        <p>
+          <strong>Voces de la Tierra</strong> nació de la convicción de que el
+          arte indígena de México no necesita intermediarios: necesita oídos,
+          ojos y manos que escuchen.
+        </p>
+        <p>
+          Desde 2024 trabajamos directamente con cooperativas del sureste
+          mexicano para llevar al mundo piezas auténticas, garantizando que
+          el 80% del valor de cada compra regrese a quien la creó.
+        </p>
+        <ul class="story-list">
+          <li>✓ Pago justo y transparente al artesano</li>
+          <li>✓ Trazabilidad completa de cada pieza</li>
+          <li>✓ Apoyo a la preservación lingüística y cultural</li>
+        </ul>
+      </div>
+      <div class="story-visual">
+        <div class="story-card story-1"></div>
+        <div class="story-card story-2"></div>
+        <div class="story-card story-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="section contact" id="contacto">
+    <div class="contact-card">
+      <div class="contact-info">
+        <span class="eyebrow light">— Hablemos —</span>
+        <h2>¿Eres artesano o cooperativa?</h2>
+        <p>Súmate a la red. Nuestra plataforma está abierta a comunidades que quieran compartir su arte con el mundo.</p>
+        <ul class="contact-list">
+          <li>📍 Mérida, Yucatán · México</li>
+          <li>✉️ hola@vocesdelatierra.mx</li>
+          <li>📞 +52 999 123 4567</li>
+        </ul>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <input type="text" name="nombre" placeholder="Tu nombre" required />
+          <input type="email" name="email" placeholder="Tu correo" required />
+        </div>
+        <input type="text" name="asunto" placeholder="Asunto" />
+        <textarea name="mensaje" rows="4" placeholder="Cuéntanos tu historia..." required></textarea>
+        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+        <p class="form-msg" id="formMsg"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-col">
+       <a href="#inicio" class="logo light">
+  <img src="./imagenes/logo2.png" alt="Logo">
+</a>
+        <p>Comercio justo, cultura viva.<br />Hecho con respeto en México.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explora</h5>
+        <a href="#artesanos">Artesanos</a>
+        <a href="#lenguas">Lenguas</a>
+        <a href="#mercancias">Mercancías</a>
+        <a href="#historia">Historia</a>
+      </div>
+      <div class="footer-col">
+        <h5>Comunidad</h5>
+        <a href="#">Cooperativas aliadas</a>
+        <a href="#">Turismo cultural</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h5>Síguenos</h5>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="TikTok">TT</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Voces de la Tierra · Todos los derechos reservados.</p>
+      <p>Diseñado con ❤️ para las comunidades originarias de México.</p>
+    </div>
+  </footer>
+
+  <script src="data/data.js"></script>
+  <script src="js/cariito.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
