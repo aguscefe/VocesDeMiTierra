@@ -28,4 +28,58 @@ class MarketplaceTest extends TestCase {
  public function test_consumer_cannot_moderate_products_or_see_other_users(): void {[$buyer]=$this->fixture();$this->actingAs($buyer)->patchJson('/api/products/piece',['status'=>'published'])->assertForbidden();$data=$this->getJson('/api/state')->assertOk()->json('store');$this->assertCount(1,$data['users']);$this->assertSame('buyer',$data['users'][0]['id']);}
  public function test_revoked_consent_removes_publication(): void {[$buyer,$seller]=$this->fixture();$this->actingAs($seller)->deleteJson('/api/consents/consent')->assertOk();$this->assertDatabaseHas('products',['id'=>'piece','status'=>'paused']);$this->actingAs($buyer)->getJson('/api/state')->assertJsonCount(0,'store.products');}
  public function test_pending_payment_can_be_cancelled_and_stock_restored_once(): void {[$buyer]=$this->fixture();$this->actingAs($buyer)->putJson('/api/cart',['items'=>[['product_id'=>'piece','quantity'=>1]]])->assertOk();$this->postJson('/api/checkout',['address'=>'Prueba','postal'=>'77500','method'=>'pending','scenario'=>'pending','idempotency_key'=>'ca90fdeb-6a60-4799-8e88-18984c539d43'])->assertCreated();$id=DB::table('orders')->value('id');$this->patchJson('/api/orders/'.$id,['status'=>'cancelled'])->assertOk();$this->patchJson('/api/orders/'.$id,['status'=>'cancelled'])->assertUnprocessable();$this->assertDatabaseHas('products',['id'=>'piece','stock'=>2]);}
+
+ public function test_profile_image_and_workshop_edit_are_owned_by_logged_in_user(): void {
+  [$buyer,$seller]=$this->fixture();
+  $this->actingAs($seller)->putJson('/api/profile',['name'=>'Mi nombre','phone'=>'9981111111','workshop_name'=>'Mi taller','biography'=>'Nuestra historia','community'=>'Cancún','municipality'=>'Benito Juárez','years_experience'=>8,'languages'=>['Español','Maya'],'craft_types'=>['Madera']])->assertOk();
+  $this->assertDatabaseHas('producer_profiles',['id'=>'profile','workshop_name'=>'Mi taller','years_experience'=>8]);
+  \Illuminate\Support\Facades\Storage::fake('public');
+  $file=\Illuminate\Http\UploadedFile::fake()->createWithContent('foto.png',base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+j3XcAAAAASUVORK5CYII='));
+  $result=$this->actingAs($buyer)->postJson('/api/profile/image',['image'=>$file])->assertCreated();
+  $this->assertDatabaseHas('users',['id'=>'buyer','avatar_url'=>$result->json('url')]);
+  $this->assertDatabaseHas('users',['id'=>'seller','avatar_url'=>null]);
+  $this->assertDatabaseHas('producer_profiles',['id'=>'profile','profile_image'=>null]);
+  $this->postJson('/api/profile/image',['image'=>\Illuminate\Http\UploadedFile::fake()->create('script.php',1,'application/x-httpd-php')])->assertUnprocessable();
+ }
+ public function test_translator_uses_provider_and_validates_direction(): void {
+  config(['translator.key'=>'test-key','translator.region'=>'test-region']);
+  \Illuminate\Support\Facades\Http::preventStrayRequests();
+  \Illuminate\Support\Facades\Http::fake(['api.cognitive.microsofttranslator.com/*'=>\Illuminate\Support\Facades\Http::response([['translations'=>[['text'=>'Resultado del proveedor','to'=>'yua']]]])]);
+  $this->postJson('/api/translate',['text'=>'Texto libre','source'=>'es','target'=>'yua'])->assertOk()->assertJsonPath('text','Resultado del proveedor');
+  \Illuminate\Support\Facades\Http::assertSent(fn($r)=>$r->hasHeader('Ocp-Apim-Subscription-Key','test-key')&&$r->hasHeader('Ocp-Apim-Subscription-Region','test-region')&&$r[0]['Text']==='Texto libre'&&str_contains($r->url(),'from=es')&&str_contains($r->url(),'to=yua'));
+  $this->postJson('/api/translate',['text'=>'Texto','source'=>'es','target'=>'es'])->assertUnprocessable();
+  $this->postJson('/api/translate',['text'=>str_repeat('a',3001),'source'=>'es','target'=>'yua'])->assertUnprocessable();
+ }
+ public function test_translator_reports_missing_key_and_provider_failure(): void {
+  config(['translator.key'=>'']);
+  $this->postJson('/api/translate',['text'=>'Texto','source'=>'yua','target'=>'es'])->assertStatus(503);
+  config(['translator.key'=>'test-key']);
+  \Illuminate\Support\Facades\Http::fake(['*'=>\Illuminate\Support\Facades\Http::response([],401)]);
+  $this->postJson('/api/translate',['text'=>'Texto','source'=>'yua','target'=>'es'])->assertStatus(503)->assertJsonMissing(['key'=>'test-key']);
+ }
+ public function test_admin_command_creates_hashed_account(): void {
+  $this->artisan('voces:admin',['email'=>'administrator@example.test'])->expectsQuestion('Contraseña del administrador (mínimo 8 caracteres)','AdminTest123')->expectsQuestion('Confirma la contraseña','AdminTest123')->expectsOutput('Administrador creado.')->assertSuccessful();
+  $u=User::where('email','administrator@example.test')->firstOrFail();$this->assertSame('admin',$u->role);$this->assertTrue(Hash::check('AdminTest123',$u->password));
+  $this->artisan('voces:admin',['email'=>'administrator@example.test'])->assertFailed();
+ }
+
+ public function test_demo_catalog_is_idempotent_and_preserves_existing_admin_and_edits(): void {
+  $admin=User::create(['id'=>'existing_admin','name'=>'Administrador','email'=>'existing@example.test','password'=>'ExistingPass123','phone'=>'','role'=>'admin','status'=>'active']);
+  $_ENV['DEMO_PASSWORD']=$_SERVER['DEMO_PASSWORD']='FixturePass123';
+  try {
+   $this->seed(\Database\Seeders\CatalogDemoSeeder::class);
+   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('producer_profiles',4);$this->assertDatabaseCount('products',8);
+   $this->assertTrue(Hash::check('ExistingPass123',$admin->fresh()->password));
+   $this->assertTrue(Hash::check('FixturePass123',User::findOrFail('demo_user_ana')->password));
+   DB::table('producer_profiles')->where('id','demo_taller_ana')->update(['biography'=>'Biografía editada por el usuario']);
+   DB::table('products')->where('id','demo_producto_rebozo')->update(['stock'=>3,'status'=>'paused']);
+   DB::table('cultural_consents')->where('product_id','demo_producto_rebozo')->update(['revoked_at'=>now()]);
+   $this->seed(\Database\Seeders\CatalogDemoSeeder::class);
+   $this->assertDatabaseCount('users',5);$this->assertDatabaseCount('products',8);
+   $this->assertDatabaseHas('producer_profiles',['id'=>'demo_taller_ana','biography'=>'Biografía editada por el usuario']);
+   $this->assertDatabaseHas('products',['id'=>'demo_producto_rebozo','stock'=>3,'status'=>'paused']);
+   $this->assertNotNull(DB::table('cultural_consents')->where('product_id','demo_producto_rebozo')->value('revoked_at'));
+   $this->getJson('/api/state')->assertOk()->assertJsonCount(7,'store.products');
+  }finally{unset($_ENV['DEMO_PASSWORD'],$_SERVER['DEMO_PASSWORD']);}
+ }
 }

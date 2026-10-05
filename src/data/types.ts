@@ -10,12 +10,14 @@ export interface User {
   status: "active" | "suspended";
   created_at: string;
   last_login: string;
+  avatar_url?: string;
 }
 
 export interface ProducerProfile {
   id: string;
   user_id: string;
   workshop_name: string;
+  artisan_name?: string;
   biography: string;
   community: string;
   municipality: string;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
@@ -7,6 +7,7 @@ interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
 export default function ImageWithFallback({ src, alt, fallbackSrc, className, style, ...rest }: Props) {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  useEffect(() => {setError(false);setLoaded(false);}, [src]);
 
   if (error || !src) {
     return (

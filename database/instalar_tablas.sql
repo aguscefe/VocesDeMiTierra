@@ -320,3 +320,6 @@ CREATE TABLE audit_logs (
 
 CREATE TABLE migrations (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, migration VARCHAR(255) NOT NULL, batch INT NOT NULL);
 INSERT INTO migrations(migration,batch) VALUES ('2026_10_04_000001_create_marketplace',1);
+
+ALTER TABLE users ADD COLUMN avatar_url VARCHAR(500) NULL;
+INSERT INTO migrations(migration,batch) VALUES ('2026_10_04_000002_add_avatar_to_users',2);

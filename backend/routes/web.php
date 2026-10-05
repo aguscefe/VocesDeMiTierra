@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\MarketplaceController as M;
 Route::prefix('api')->group(function () {
  Route::get('csrf', fn()=>response()->json(['token'=>csrf_token()]));
  Route::get('health', fn()=>response()->json(['status'=>'ok']));
+ Route::post('translate',[\App\Http\Controllers\Api\TranslationController::class,'translate'])->middleware('throttle:10,1');
  Route::get('state', [M::class,'state']);
  Route::post('login', [M::class,'login'])->middleware('throttle:10,1');
  Route::post('register',[M::class,'register'])->middleware('throttle:10,1');
@@ -25,6 +26,7 @@ Route::prefix('api')->group(function () {
   Route::post('reviews',[M::class,'review']);
   Route::patch('reviews/{id}',[M::class,'reviewUpdate']);
   Route::post('notifications/read',[M::class,'readNotifications']);
+  Route::post('profile/image',[M::class,'profileImage']);
   Route::put('profile',[M::class,'profile']);
   Route::delete('consents/{id}',[M::class,'withdraw']);
   Route::patch('qr/{id}',[M::class,'qr']);

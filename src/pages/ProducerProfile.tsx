@@ -41,6 +41,7 @@ export default function ProducerProfile() {
           </div>
           <div className="text-center sm:text-left text-white">
             <h1 className="font-display text-3xl font-bold mb-1">{producer.workshop_name}</h1>
+            <p className="text-white/90 mb-2">{producer.artisan_name || user?.name}</p>
             <p className="text-white/70 mb-3">{producer.community}, {producer.municipality}</p>
             <div className="flex flex-wrap gap-4 justify-center sm:justify-start text-sm">
               <span className="flex items-center gap-1"><span className="text-[#D6A73C]">★</span> <strong>{avgRating}</strong> ({totalReviews} reseñas)</span>

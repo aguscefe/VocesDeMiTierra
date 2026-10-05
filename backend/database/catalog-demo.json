@@ -1,0 +1,252 @@
+{
+  "artisans": [
+    {
+      "slug": "ana",
+      "user_id": "demo_user_ana",
+      "producer_id": "demo_taller_ana",
+      "name": "Ana Castillo",
+      "email": "ana@voces.example",
+      "workshop_name": "Tejidos Brisa del Sur",
+      "community": "Felipe Carrillo Puerto",
+      "municipality": "Felipe Carrillo Puerto",
+      "biography": "Ana Castillo es un personaje ficticio de demostración. Su taller de ejemplo, Tejidos Brisa del Sur, presenta piezas de textiles inspiradas en materiales y oficios artesanales de Quintana Roo. Los productos, fotografías y trayectoria son simulados para este proyecto escolar.",
+      "languages": [
+        "Español"
+      ],
+      "craft_types": [
+        "Textiles y bordados"
+      ],
+      "years_experience": 12,
+      "profile_image": "/demo/artesanos/ana.png"
+    },
+    {
+      "slug": "mateo",
+      "user_id": "demo_user_mateo",
+      "producer_id": "demo_taller_mateo",
+      "name": "Mateo Torres",
+      "email": "mateo@voces.example",
+      "workshop_name": "Maderas Laguna",
+      "community": "Bacalar",
+      "municipality": "Bacalar",
+      "biography": "Mateo Torres es un personaje ficticio de demostración. Su taller de ejemplo, Maderas Laguna, presenta piezas de madera inspiradas en materiales y oficios artesanales de Quintana Roo. Los productos, fotografías y trayectoria son simulados para este proyecto escolar.",
+      "languages": [
+        "Español"
+      ],
+      "craft_types": [
+        "Madera"
+      ],
+      "years_experience": 15,
+      "profile_image": "/demo/artesanos/mateo.png"
+    },
+    {
+      "slug": "elena",
+      "user_id": "demo_user_elena",
+      "producer_id": "demo_taller_elena",
+      "name": "Elena Santos",
+      "email": "elena@voces.example",
+      "workshop_name": "Barro del Caribe",
+      "community": "Tulum",
+      "municipality": "Tulum",
+      "biography": "Elena Santos es un personaje ficticio de demostración. Su taller de ejemplo, Barro del Caribe, presenta piezas de cerámica inspiradas en materiales y oficios artesanales de Quintana Roo. Los productos, fotografías y trayectoria son simulados para este proyecto escolar.",
+      "languages": [
+        "Español"
+      ],
+      "craft_types": [
+        "Cerámica"
+      ],
+      "years_experience": 8,
+      "profile_image": "/demo/artesanos/elena.png"
+    },
+    {
+      "slug": "lucia",
+      "user_id": "demo_user_lucia",
+      "producer_id": "demo_taller_lucia",
+      "name": "Lucía Ramos",
+      "email": "lucia@voces.example",
+      "workshop_name": "Fibras del Sol",
+      "community": "José María Morelos",
+      "municipality": "José María Morelos",
+      "biography": "Lucía Ramos es un personaje ficticio de demostración. Su taller de ejemplo, Fibras del Sol, presenta piezas de fibras naturales inspiradas en materiales y oficios artesanales de Quintana Roo. Los productos, fotografías y trayectoria son simulados para este proyecto escolar.",
+      "languages": [
+        "Español"
+      ],
+      "craft_types": [
+        "Fibras naturales"
+      ],
+      "years_experience": 20,
+      "profile_image": "/demo/artesanos/lucia.png"
+    }
+  ],
+  "products": [
+    {
+      "id": "demo_producto_rebozo",
+      "producer_id": "demo_taller_ana",
+      "name": "Rebozo de algodón con franjas tejidas",
+      "category": "Textiles y bordados",
+      "description": "Rebozo de algodón con franjas tejidas. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con algodón. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 790,
+      "stock": 8,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.4,
+      "package_dimensions": "30x25x8",
+      "featured_image": "/demo/productos/rebozo.png",
+      "gallery": [
+        "/demo/productos/rebozo.png"
+      ]
+    },
+    {
+      "id": "demo_producto_bolsa-textil",
+      "producer_id": "demo_taller_ana",
+      "name": "Bolsa de algodón tejida",
+      "category": "Textiles y bordados",
+      "description": "Bolsa de algodón tejida. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con algodón. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 490,
+      "stock": 12,
+      "status": "published",
+      "materials": [
+        "Algodón"
+      ],
+      "technique": "Tejido y costura manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.35,
+      "package_dimensions": "30x25x8",
+      "featured_image": "/demo/productos/bolsa-textil.png",
+      "gallery": [
+        "/demo/productos/bolsa-textil.png"
+      ]
+    },
+    {
+      "id": "demo_producto_cuenco",
+      "producer_id": "demo_taller_mateo",
+      "name": "Cuenco de madera tallada",
+      "category": "Madera",
+      "description": "Cuenco de madera tallada. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con madera. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 580,
+      "stock": 6,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Tallado y lijado manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.8,
+      "package_dimensions": "25x25x15",
+      "featured_image": "/demo/productos/cuenco.png",
+      "gallery": [
+        "/demo/productos/cuenco.png"
+      ]
+    },
+    {
+      "id": "demo_producto_portavasos",
+      "producer_id": "demo_taller_mateo",
+      "name": "Portavasos de madera · juego de cuatro",
+      "category": "Madera",
+      "description": "Portavasos de madera · juego de cuatro. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con madera. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 260,
+      "stock": 15,
+      "status": "published",
+      "materials": [
+        "Madera"
+      ],
+      "technique": "Corte y lijado manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.3,
+      "package_dimensions": "15x15x8",
+      "featured_image": "/demo/productos/portavasos.png",
+      "gallery": [
+        "/demo/productos/portavasos.png"
+      ]
+    },
+    {
+      "id": "demo_producto_vasija",
+      "producer_id": "demo_taller_elena",
+      "name": "Vasija de barro con detalle turquesa",
+      "category": "Cerámica",
+      "description": "Vasija de barro con detalle turquesa. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con barro, esmalte. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 650,
+      "stock": 5,
+      "status": "published",
+      "materials": [
+        "Barro",
+        "Esmalte"
+      ],
+      "technique": "Modelado al torno",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 1.2,
+      "package_dimensions": "25x25x30",
+      "featured_image": "/demo/productos/vasija.png",
+      "gallery": [
+        "/demo/productos/vasija.png"
+      ]
+    },
+    {
+      "id": "demo_producto_tazas",
+      "producer_id": "demo_taller_elena",
+      "name": "Tazas de cerámica · juego de dos",
+      "category": "Cerámica",
+      "description": "Tazas de cerámica · juego de dos. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con barro, esmalte. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 420,
+      "stock": 10,
+      "status": "published",
+      "materials": [
+        "Barro",
+        "Esmalte"
+      ],
+      "technique": "Modelado al torno",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.7,
+      "package_dimensions": "30x20x15",
+      "featured_image": "/demo/productos/tazas.png",
+      "gallery": [
+        "/demo/productos/tazas.png"
+      ]
+    },
+    {
+      "id": "demo_producto_canasta",
+      "producer_id": "demo_taller_lucia",
+      "name": "Canasta de fibras naturales",
+      "category": "Fibras naturales",
+      "description": "Canasta de fibras naturales. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con fibras vegetales. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 540,
+      "stock": 7,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.45,
+      "package_dimensions": "35x30x25",
+      "featured_image": "/demo/productos/canasta.png",
+      "gallery": [
+        "/demo/productos/canasta.png"
+      ]
+    },
+    {
+      "id": "demo_producto_mantel",
+      "producer_id": "demo_taller_lucia",
+      "name": "Mantel individual de fibras naturales",
+      "category": "Fibras naturales",
+      "description": "Mantel individual de fibras naturales. Diseño de ejemplo para el catálogo escolar, elaborado visualmente con fibras vegetales. La imagen fue generada con IA; no representa una pieza disponible a la venta ni una tradición cultural autenticada.",
+      "price": 180,
+      "stock": 20,
+      "status": "published",
+      "materials": [
+        "Fibras vegetales"
+      ],
+      "technique": "Trenzado manual",
+      "production_time": "5 a 10 días (simulado)",
+      "package_weight": 0.15,
+      "package_dimensions": "40x30x3",
+      "featured_image": "/demo/productos/mantel.png",
+      "gallery": [
+        "/demo/productos/mantel.png"
+      ]
+    }
+  ]
+}

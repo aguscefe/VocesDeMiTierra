@@ -1,3 +1,5 @@
+> **VPS ya publicado:** sigue SUBIR_TODO.md para aplicar este paquete y cargar el nuevo catálogo.
+
 # Voces de mi Tierra — React + Laravel + MariaDB
 
 Este paquete conecta el frontend a una API Laravel 12. Los datos se guardan en MariaDB; el navegador no guarda contraseñas ni una base de datos simulada. Los pagos y las cotizaciones de envío son exclusivamente de demostración. No existe integración bancaria ni compra de guías reales.
@@ -216,4 +218,4 @@ No uses las credenciales ni el nombre de la base publicada para pruebas. Las pru
 
 Incluye persistencia y flujos del marketplace, registro/login, permisos, publicación, aprobación, carrito, checkout sandbox, pedidos, guía manual, reseñas, notificaciones internas, soporte, perfiles, consentimientos, QR, estadísticas basadas en pedidos, CSV y bitácora. El seeder es opcional y los datos son ficticios.
 
-No integra pagos reales, compra de guías, seguimiento automático de paqueterías ni traducción validada al maya. Las notificaciones son internas, no se envían correos ni WhatsApp. Los paneles se reorganizaron para conectar las operaciones a la API; no son una réplica exacta de los paneles originales. No se incluyen recorte de imágenes, chat en tiempo real ni restablecimiento de contraseñas por correo. Estos servicios necesitan una ampliación específica si los quieres antes de abrir a usuarios reales.
+No integra pagos reales, compra de guías, seguimiento automático de paqueterías ni traducción validada por hablantes de maya. La actualización incorpora traducción automática mediante Azure Translator, pendiente de configurar la clave del servicio; consulta ACTUALIZACION.md. Las notificaciones son internas, no se envían correos ni WhatsApp. Los paneles se reorganizaron para conectar las operaciones a la API; no son una réplica exacta de los paneles originales. No se incluyen recorte de imágenes, chat en tiempo real ni restablecimiento de contraseñas por correo. Estos servicios necesitan una ampliación específica si los quieres antes de abrir a usuarios reales.

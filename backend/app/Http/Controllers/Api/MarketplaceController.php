@@ -38,7 +38,7 @@ class MarketplaceController extends Controller {
   $products=$this->rows('products',$visible); $ids=array_column($products,'id');
   $profiles=DB::table('producer_profiles');if(!$admin)$profiles->where(fn($q)=>$q->where('authorization_status','approved')->when($pid,fn($q)=>$q->orWhere('id',$pid)));
   $producers=$this->rows('producer_profiles',$profiles);
-  foreach($producers as &$p){$p['total_products']=count(array_filter($products,fn($x)=>$x['producer_id']===$p['id']));}unset($p);
+  foreach($producers as &$p){$p['artisan_name']=DB::table('users')->where('id',$p['user_id'])->value('name');$p['total_products']=count(array_filter($products,fn($x)=>$x['producer_id']===$p['id']));}unset($p);
   $orders=[];$payments=[];$carts=[];$favorites=[];$tickets=[];$notifications=[];$users=[];$consents=[];$logs=[];
   if($u){
    $oq=DB::table('orders');if(!$admin)$oq->where($u->role==='producer'?'producer_id':'consumer_id',$u->role==='producer'?$pid:$u->id);
@@ -112,7 +112,19 @@ class MarketplaceController extends Controller {
  public function review(Request $r){$u=$this->role($r,'consumer');$v=$r->validate(['order_id'=>'required|string','product_id'=>'required|string','rating'=>'required|integer|min:1|max:5','comment'=>'required|string|max:2000']);abort_unless(DB::table('orders')->where('id',$v['order_id'])->where('consumer_id',$u->id)->where('status','delivered')->exists()&&DB::table('order_items')->where('order_id',$v['order_id'])->where('product_id',$v['product_id'])->exists(),403);if(DB::table('reviews')->where('order_id',$v['order_id'])->where('product_id',$v['product_id'])->exists())$this->fail('Ya reseñaste esta pieza.');DB::table('reviews')->insert($v+['id'=>$this->id(),'consumer_id'=>$u->id,'consumer_name'=>$u->name]);return response()->json(['ok'=>true],201);}
  public function reviewUpdate(Request $r,string $id){$this->role($r,'admin');$v=$r->validate(['status'=>'required|in:published,rejected']);DB::table('reviews')->where('id',$id)->update($v);return response()->json(['ok'=>true]);}
  public function readNotifications(Request $r){$u=$this->user($r);DB::table('notifications')->where('user_id',$u->id)->update(['is_read'=>1]);return response()->json(['ok'=>true]);}
- public function profile(Request $r){$u=$this->user($r);$v=$r->validate(['name'=>'required|string|max:150','phone'=>'required|string|max:30','biography'=>'nullable|string|max:5000','workshop_name'=>'nullable|string|max:180']);$u->update(array_intersect_key($v,array_flip(['name','phone'])));if($u->role==='producer')DB::table('producer_profiles')->where('user_id',$u->id)->update(array_intersect_key($v,array_flip(['biography','workshop_name'])));return response()->json(['ok'=>true]);}
+ public function profile(Request $r){
+  $u=$this->user($r);$v=$r->validate(['name'=>'required|string|max:150','phone'=>'required|string|max:30','biography'=>'nullable|string|max:5000','workshop_name'=>'sometimes|required|string|max:180','community'=>'sometimes|required|string|max:150','municipality'=>'sometimes|required|string|max:150','years_experience'=>'sometimes|integer|min:0|max:100','languages'=>'sometimes|array|max:20','languages.*'=>'string|max:80','craft_types'=>'sometimes|array|max:30','craft_types.*'=>'string|max:100']);
+  DB::transaction(function()use($u,$v){$u->update(array_intersect_key($v,array_flip(['name','phone'])));if($u->role==='producer'){$fields=array_intersect_key($v,array_flip(['biography','workshop_name','community','municipality','years_experience','languages','craft_types']));foreach(['languages','craft_types']as$key)if(isset($fields[$key]))$fields[$key]=json_encode($fields[$key],JSON_UNESCAPED_UNICODE);if($fields)DB::table('producer_profiles')->where('user_id',$u->id)->update($fields);}});
+  return response()->json(['ok'=>true]);
+ }
+ public function profileImage(Request $r){
+  $u=$this->user($r);$r->validate(['image'=>'required|image|mimes:jpg,jpeg,png,webp|max:5120']);
+  $path=$r->file('image')->store('profiles','public');$url='/storage/'.$path;
+  try {DB::transaction(function()use($u,$url){$u->update(['avatar_url'=>$url]);if($u->role==='producer')DB::table('producer_profiles')->where('user_id',$u->id)->update(['profile_image'=>$url]);});}
+  catch(\Throwable $e){\Illuminate\Support\Facades\Storage::disk('public')->delete($path);throw $e;}
+  return response()->json(['url'=>$url],201);
+ }
+
  public function withdraw(Request $r,string $id){$p=$this->producer($r);$c=DB::table('cultural_consents')->where('id',$id)->where('producer_id',$p->id)->first();abort_unless($c,404);DB::transaction(function()use($id,$c){DB::table('cultural_consents')->where('id',$id)->update(['revoked_at'=>now()]);DB::table('products')->where('id',$c->product_id)->update(['status'=>'paused']);DB::table('qr_codes')->where('product_id',$c->product_id)->update(['active'=>0]);});return response()->json(['ok'=>true]);}
  public function qr(Request $r,string $id){$p=$this->producer($r);$v=$r->validate(['active'=>'required|boolean']);$q=DB::table('qr_codes')->where('id',$id)->first();abort_unless($q&&DB::table('products')->where('id',$q->product_id)->where('producer_id',$p->id)->exists(),403);DB::table('qr_codes')->where('id',$id)->update($v);return response()->json(['ok'=>true]);}
  public function event(Request $r){$v=$r->validate(['product_id'=>'required|string|exists:products,id','event_type'=>'required|in:product_view,qr_scan,add_to_cart,checkout_started']);abort_unless(DB::table('products')->where('id',$v['product_id'])->where('status','published')->exists(),404);DB::table('analytics_events')->insert($v+['user_id'=>$r->user()?->id,'source'=>'web']);if($v['event_type']==='product_view')DB::table('products')->where('id',$v['product_id'])->increment('views');if($v['event_type']==='qr_scan')DB::table('qr_codes')->where('product_id',$v['product_id'])->where('active',1)->update(['scans'=>DB::raw('scans+1'),'last_scan'=>now()]);return response()->json(['ok'=>true]);}

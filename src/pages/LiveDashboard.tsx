@@ -1,3 +1,4 @@
+import ProfileEditor from "../components/ProfileEditor";
 import { useState } from "react";
 import { Link } from "react-router";
 import QRCode from "qrcode";
@@ -10,7 +11,6 @@ const labels: Record<string, string> = { paid: "Pagado", pending_payment: "Pago 
 export default function LiveDashboard({ role }: { role: Role }) {
  const { user, logout } = useApp(); const store = getStore(); const [tab, setTab] = useState("Resumen"); const [error, setError] = useState(""); const [busy, setBusy] = useState(false); const [from, setFrom] = useState(""); const [to, setTo] = useState("");
  const [subject, setSubject] = useState(""); const [description, setDescription] = useState("");
- const [name, setName] = useState(user?.name || ""); const [phone, setPhone] = useState(user?.phone || "");
  const [qrImage, setQrImage] = useState("");
  if (!user) return <div className="p-12"><Link to="/login" className="btn-primary">Iniciar sesión</Link></div>;
  if (user.role !== role) return <div className="p-12">No tienes acceso a este panel.</div>;
@@ -42,7 +42,7 @@ export default function LiveDashboard({ role }: { role: Role }) {
  {tab === "Pagos" && store.payments.map(p => <p key={p.id} className="border-b py-3">{p.sandbox_transaction_id} · {p.status} · {money(p.amount)} · Simulado</p>)}
  {tab === "Notificaciones" && <>{button("Marcar como leídas", () => action("notifications/read", "POST"))}{store.notifications.map(n => <article key={n.id} className="border-b py-4"><strong>{n.title}{!n.read && " · Nueva"}</strong><p>{n.message}</p></article>)}</>}
  {tab === "Soporte" && <><form className="mb-6" onSubmit={e => { e.preventDefault(); void action("tickets", "POST", { subject, description }); }}><label>Asunto<input required maxLength={220} className="input-field mb-3" value={subject} onChange={e => setSubject(e.target.value)} /></label><label>Descripción<textarea required className="input-field mb-3" value={description} onChange={e => setDescription(e.target.value)} /></label><button disabled={busy} className="btn-primary">Crear solicitud</button></form>{store.support_tickets.map(t => <article key={t.id} className="border-b py-4"><h2>{t.subject} · {t.status}</h2><p>{t.description}</p>{role === "admin" && ["in_progress", "resolved", "closed"].map(status => <span key={status}>{button(status, () => action(`tickets/${t.id}`, "PATCH", { status }))}</span>)}</article>)}</>}
- {tab === "Perfil" && <form onSubmit={e => { e.preventDefault(); void action("profile", "PUT", { name, phone }); }}><label>Nombre<input required className="input-field mb-3" value={name} onChange={e => setName(e.target.value)} /></label><label>Teléfono<input required className="input-field mb-3" value={phone} onChange={e => setPhone(e.target.value)} /></label><button disabled={busy} className="btn-primary">Guardar</button>{profile && <p className="mt-4">{profile.workshop_name} · Autorización: {labels[profile.authorization_status]}</p>}</form>}
+ {tab === "Perfil" && <ProfileEditor />}
  {tab === "Consentimientos" && store.consents.map(c => <article key={c.id} className="border-b py-4"><p>{products.find(p => p.id === c.product_id)?.name || c.product_id} · {c.revoked_at ? "Retirado" : "Vigente"} · {c.expires_at || "Sin fecha de vencimiento"}</p>{role === "producer" && !c.revoked_at && button("Retirar consentimiento", () => confirm("Se pausará la publicación. ¿Continuar?") && action(`consents/${c.id}`, "DELETE"))}</article>)}
  {tab === "QR" && <>{store.qr_codes.filter(q => products.some(p => p.id === q.product_id)).map(q => <article key={q.id} className="border-b py-4"><p>{products.find(p => p.id === q.product_id)?.name} · {q.scans} escaneos</p><a href={q.public_url}>{q.public_url}</a><div className="mt-3">{button("Ver / descargar PNG", async () => setQrImage(await QRCode.toDataURL(q.public_url, { width: 600, margin: 2 })))}{button(q.active ? "Desactivar" : "Activar", () => action(`qr/${q.id}`, "PATCH", { active: !q.active }))}{button("Imprimir", () => window.print())}</div></article>)}{qrImage && <div className="mt-4"><img src={qrImage} alt="Código QR del producto" className="w-64" /><a className="btn-primary" href={qrImage} download="qr-voces.png">Descargar PNG</a></div>}</>}
  {tab === "Favoritos" && <Link className="btn-primary" to="/favoritos">Abrir mis favoritos</Link>}

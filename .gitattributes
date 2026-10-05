@@ -144,3 +144,7 @@
 *.stl                filter=lfs diff=lfs merge=lfs -text
 *.nc                 filter=lfs diff=lfs merge=lfs -text
 *.mat                filter=lfs diff=lfs merge=lfs -text
+
+# New generated demo photos are normal Git files, without external LFS downloads.
+public/demo/artesanos/*.png -filter -diff -merge -text
+public/demo/productos/*.png -filter -diff -merge -text
