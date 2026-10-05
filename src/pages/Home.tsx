@@ -55,19 +55,19 @@ export default function Home() {
     <div className="min-h-screen" style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}>
 
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      <section data-reveal className="hero-motion relative min-h-screen flex flex-col justify-center overflow-hidden"
         style={{ backgroundImage: `url(${fondoImg})`, backgroundSize: "cover", backgroundPosition: "center" }}>
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-[#0f0a05]/75" />
+        <div className="absolute inset-0 bg-[#0f0a05]/60" />
         {/* Decorative blobs */}
-        <div className="absolute top-1/4 left-10 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
+        <div className="hero-glow absolute top-1/4 left-10 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
           style={{ background: "radial-gradient(circle, #B85C38, transparent)" }} />
-        <div className="absolute bottom-1/4 right-10 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
+        <div className="hero-glow hero-glow-second absolute bottom-1/4 right-10 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
           style={{ background: "radial-gradient(circle, #315C4C, transparent)" }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
           style={{ background: "radial-gradient(circle, #D6A73C, transparent)" }} />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
+        <div className="hero-content relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
           <span className="inline-block text-[#D6A73C] text-xs sm:text-sm font-semibold tracking-widest mb-5 sm:mb-6 opacity-90">
             ✦ Comercio justo · Cultura viva ✦
           </span>
@@ -119,7 +119,7 @@ export default function Home() {
       </section>
 
       {/* ── ARTESANOS DESTACADOS ── */}
-      <section className="bg-[#FFFDF8] py-14 sm:py-20 px-4">
+      <section data-reveal className="bg-[#FFFDF8] py-14 sm:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#B85C38] text-sm font-semibold tracking-widest">— Nuestras comunidades —</span>
@@ -131,7 +131,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducers.map(pp => (
               <Link to={`/productor/${pp.id}`} key={pp.id}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EDE8DF] hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                data-reveal className="artisan-motion group bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EDE8DF] hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                 <div className="h-36 relative overflow-hidden"
                   style={{ background: "linear-gradient(135deg, #3A2923, #315C4C)" }}>
                   <ImageWithFallback src={pp.profile_image} alt={pp.workshop_name}
@@ -163,7 +163,7 @@ export default function Home() {
       </section>
 
       {/* ── LENGUAS ORIGINARIAS ── */}
-      <section className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #1a0f08 100%)" }}>
+      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #1a0f08 100%)" }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#D6A73C] text-sm font-semibold tracking-widest">— Lenguas originarias —</span>
@@ -190,7 +190,7 @@ export default function Home() {
       </section>
 
       {/* ── ARTESANÍAS DESTACADAS ── */}
-      <section className="bg-[#F5EFE4] py-14 sm:py-20 px-4">
+      <section data-reveal className="bg-[#F5EFE4] py-14 sm:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
             <span className="text-[#B85C38] text-sm font-semibold tracking-widest">— Mercancías destacadas —</span>
@@ -239,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* ── CÓMO FUNCIONA ── */}
-      <section className="bg-[#315C4C] py-14 sm:py-20 px-4">
+      <section data-reveal className="bg-[#315C4C] py-14 sm:py-20 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <span className="text-[#D6A73C] text-sm font-semibold tracking-widest">— Proceso —</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white mb-8 sm:mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -270,7 +270,7 @@ export default function Home() {
       </section>
 
       {/* ── HISTORIA / NOSOTROS ── */}
-      <section className="bg-[#FFFDF8] py-14 sm:py-20 px-4">
+      <section data-reveal className="bg-[#FFFDF8] py-14 sm:py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
@@ -328,7 +328,7 @@ export default function Home() {
       </section>
 
       {/* ── CTA PRODUCTORES ── */}
-      <section className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #B85C38 50%, #D6A73C 100%)" }}>
+      <section data-reveal className="py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #3A2923 0%, #B85C38 50%, #D6A73C 100%)" }}>
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-white/60 text-sm font-semibold tracking-widest">— Únete a la red —</span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>

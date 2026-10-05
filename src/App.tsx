@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
 import { AppProvider } from "./context/AppContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PageMotion from "./components/PageMotion";
 
 import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
@@ -37,7 +38,7 @@ function PublicLayout() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
-        <Outlet />
+        <PageMotion />
       </main>
       <Footer />
     </div>
@@ -49,7 +50,7 @@ function DashboardLayout() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
-        <Outlet />
+        <PageMotion />
       </main>
     </div>
   );
