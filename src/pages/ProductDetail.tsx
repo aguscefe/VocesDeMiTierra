@@ -190,7 +190,7 @@ export default function ProductDetail() {
               {shipping !== null && (
                 <div className="mt-3 p-3 bg-[#F5EFE4] rounded-lg">
                   <p className="text-sm text-[#6B6763]">Envío estimado: <span className="font-bold text-[#3A2923]">${shipping.toFixed(2)} MXN</span></p>
-                  <p className="text-xs text-[#6B6763]">Entrega estimada: 7-10 días hábiles (simulado)</p>
+                  <p className="text-xs text-[#6B6763]">Entrega estimada: 7-10 días hábiles</p>
                 </div>
               )}
             </div>

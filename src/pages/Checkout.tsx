@@ -175,7 +175,7 @@ export default function Checkout() {
 
             {step === "pago" && (
               <div className="bg-white border border-[#EDE8DF] rounded-xl p-6 space-y-5">
-                <p className="text-xs text-[#6B6763]">Compra de demostración · No se realizan cargos ni se solicitan datos financieros reales.</p>
+                <p className="text-xs text-[#6B6763]">Pago de prueba · No se realizan cargos ni se solicitan datos financieros reales.</p>
 
                 <div>
                   <label className="text-xs font-semibold text-[#3A2923] mb-2 block">Método de pago</label>
@@ -191,7 +191,7 @@ export default function Checkout() {
 
                 {method === "card" && (
                   <div className="space-y-3">
-                    <p id="payment-test-fields" className="text-xs text-[#6B6763]">Datos precargados para esta demostración.</p>
+                    <p id="payment-test-fields" className="text-xs text-[#6B6763]">Datos de prueba precargados.</p>
                     <div className="bg-[#F5EFE4] rounded-lg p-3 text-xs">
                       <p className="font-semibold text-[#3A2923] mb-1">Selecciona el resultado de la compra:</p>
                       {TEST_CARDS.map(tc => (
@@ -224,8 +224,8 @@ export default function Checkout() {
                   </div>
                 )}
 
-                {method === "paypal" && <section className="rounded-xl border border-blue-200 bg-blue-50 p-5"><h3 className="text-2xl font-bold text-[#003087] mb-3">PayPal</h3><p className="text-sm mb-4">Cuenta de demostración</p><label className="text-xs">Correo de la cuenta<input className="input-field mt-1" value="comprador@voces.example" readOnly /></label><p className="text-sm my-4">Importe: ${total.toLocaleString("es-MX")} MXN</p><button type="button" className="w-full rounded-full bg-[#FFC439] px-4 py-3 font-semibold text-[#003087]" onClick={()=>{setPaypalAuthorized(true);setErrors({});}}>{paypalAuthorized ? "Pago autorizado ✓" : "Autorizar pago"}</button>{errors.paypal&&<p className="text-red-700 text-sm mt-2">{errors.paypal}</p>}</section>}
-                {method === "transfer" && <section className="rounded-xl border p-4"><h3 className="font-semibold">Transferencia</h3><p className="text-sm mt-2">La referencia se asignará al confirmar el pedido. En esta demostración no debes realizar depósitos.</p></section>}
+                {method === "paypal" && <section className="rounded-xl border border-blue-200 bg-blue-50 p-5"><h3 className="text-2xl font-bold text-[#003087] mb-3">PayPal</h3><p className="text-sm mb-4">Cuenta de prueba</p><label className="text-xs">Correo de la cuenta<input className="input-field mt-1" value="comprador@voces.example" readOnly /></label><p className="text-sm my-4">Importe: ${total.toLocaleString("es-MX")} MXN</p><button type="button" className="w-full rounded-full bg-[#FFC439] px-4 py-3 font-semibold text-[#003087]" onClick={()=>{setPaypalAuthorized(true);setErrors({});}}>{paypalAuthorized ? "Pago autorizado ✓" : "Autorizar pago"}</button>{errors.paypal&&<p className="text-red-700 text-sm mt-2">{errors.paypal}</p>}</section>}
+                {method === "transfer" && <section className="rounded-xl border p-4"><h3 className="font-semibold">Transferencia</h3><p className="text-sm mt-2">La referencia se asignará al confirmar el pedido. Este pago de prueba no requiere depósitos.</p></section>}
                 {payResult === "declined" && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
                     <p className="text-[#B33A3A] font-semibold mb-1">Pago rechazado</p>

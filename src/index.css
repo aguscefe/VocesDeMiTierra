@@ -314,3 +314,11 @@ body,#root{height:auto;min-height:100%;overflow-x:clip}html{overflow-x:clip}
 @media(max-width:1000px){.trades-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.trades-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.trade-card button{height:280px}.trade-name{font-size:14px}.trade-description{font-size:11px;min-height:140px;padding:18px 14px}.trade-open .trade-name{bottom:155px}}
 .portrait-button img{object-position:center 30%}
+
+/* El proceso del inicio recoge el morado ciruela del colibrí. */
+.home-process{background:linear-gradient(120deg,#49203F,#702C5B 58%,#56304E);position:relative;border-top:1px solid #813E6B;border-bottom:1px solid #813E6B}
+.home-process h2{color:#FFFDF8}.home-process>div>span{color:#E8BF68}
+.home-step{background:#FFFDF8;border:1px solid #E6D7E2;box-shadow:0 10px 30px #250E2526}
+.home-step:nth-child(2){background:#F7EDF4}.home-step:nth-child(3){background:#FCF4E8}
+.home-step h3{color:#702C5B}.home-step p{color:#62565F}.home-step .font-mono{color:#914172}
+.home-process a{color:#FFFDF8!important}.home-process a:hover{color:#E8BF68!important}

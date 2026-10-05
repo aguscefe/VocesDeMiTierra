@@ -47,7 +47,7 @@ export default function Login() {
         {/* Acceso rápido demo */}
         {import.meta.env.VITE_DEMO_LOGIN === "true" && <>
         <div className="bg-white rounded-xl border border-[#EDE8DF] p-5 mb-5 shadow-sm">
-          <p className="text-xs font-semibold text-[#6B6763] uppercase tracking-wider mb-3 text-center">Acceso rápido de demostración</p>
+          <p className="text-xs font-semibold text-[#6B6763] uppercase tracking-wider mb-3 text-center">Acceso rápido</p>
           <div className="flex flex-col gap-2">
             {DEMO_ACCOUNTS.map(acc => (
               <button key={acc.email} onClick={() => quickLogin(acc.email)}
@@ -87,7 +87,7 @@ export default function Login() {
         </div>
 
         {import.meta.env.VITE_DEMO_LOGIN === "true" && <p className="text-center text-xs text-[#6B6763] mt-5">
-          Contraseña de demo: <span className="font-mono font-bold text-[#3A2923]">Demo1234</span> para todas las cuentas de demostración
+          Contraseña de acceso rápido: <span className="font-mono font-bold text-[#3A2923]">Demo1234</span> para las cuentas de acceso rápido
         </p>}
       </div>
     </div>

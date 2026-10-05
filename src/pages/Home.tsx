@@ -224,9 +224,9 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {[
-              { n: "01", image: "/demo/artesanos/ana.png", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
-              { n: "02", image: "/demo/artesanos/lucia.png", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
-              { n: "03", image: "/design/compra-artesanal.png", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
+              { n: "01", image: "/demo/productos/cojin-bordado.png", title: "Descubre", desc: "Explora el catálogo de piezas artesanales de comunidades originarias de Quintana Roo." },
+              { n: "02", image: "/demo/productos/hamaca.png", title: "Conoce su procedencia", desc: "Lee la historia, técnica y origen cultural de cada pieza, autorizada por su creador." },
+              { n: "03", image: "/demo/productos/cesto-tapa.png", title: "Compra directamente", desc: "Adquiere directamente del productor. Tu pago llega casi completo al artesano." },
             ].map(step => (
               <div key={step.n} data-reveal className="home-step flex flex-col items-center text-center">
                 <img src={step.image} alt={step.title} className="step-photo" loading="lazy"/>

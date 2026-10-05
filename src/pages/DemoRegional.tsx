@@ -6,7 +6,7 @@ const DEMOS = [
   { n: 3, title: "Autorizar ficha cultural", desc: "Consentimiento cultural en paso 7 del flujo", path: "/productor/nueva-publicacion", icon: "✅", role: "producer" },
   { n: 4, title: "Ver QR de producto", desc: "QR de trazabilidad en ficha del producto", path: "/producto/prod1", icon: "📱", role: "any" },
   { n: 5, title: "Comprar como consumidor", desc: "Catálogo → ficha → carrito → checkout", path: "/catalogo", icon: "🛒", role: "consumer" },
-  { n: 6, title: "Pago sandbox", desc: "Usa tarjeta 4242 4242 4242 4242", path: "/carrito", icon: "💳", role: "consumer" },
+  { n: 6, title: "Pago de prueba", desc: "Usa tarjeta 4242 4242 4242 4242", path: "/carrito", icon: "💳", role: "consumer" },
   { n: 7, title: "Gestionar pedido (productor)", desc: "Panel del productor → Pedidos", path: "/productor/dashboard", icon: "📦", role: "producer" },
   { n: 8, title: "Estadísticas del productor", desc: "Panel del productor → Estadísticas", path: "/productor/dashboard", icon: "📊", role: "producer" },
   { n: 9, title: "Estadísticas del consumidor", desc: "Panel del consumidor → Estadísticas", path: "/consumidor/dashboard", icon: "📈", role: "consumer" },
@@ -18,7 +18,7 @@ export default function DemoRegional() {
     <div className="min-h-screen bg-[#FFFDF8]">
       <div className="bg-gradient-to-br from-[#3A2923] to-[#315C4C] py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="font-display text-4xl font-bold text-white mb-3">Demo Regional</h1>
+          <h1 className="font-display text-4xl font-bold text-white mb-3">Recorrido por la plataforma</h1>
           <p className="text-white/70">Recorrido interactivo por todas las funcionalidades de Voces de mi Tierra</p>
         </div>
       </div>
@@ -26,13 +26,13 @@ export default function DemoRegional() {
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
         <div className="bg-white border border-[#EDE8DF] rounded-xl p-5">
           <h2 className="font-semibold text-[#3A2923] mb-3">Acceso al recorrido</h2>
-          <p className="text-sm text-[#6B6763]">Registra tu cuenta o inicia sesión. Las cuentas de demostración solo existen si el administrador habilitó los datos de ejemplo; utiliza la contraseña que te proporcionó.</p>
+          <p className="text-sm text-[#6B6763]">Registra tu cuenta o inicia sesión. Utiliza tus datos de acceso para explorar las funciones disponibles para tu cuenta.</p>
           <Link to="/login" className="text-sm text-[#B85C38] hover:underline mt-2 block">Iniciar sesión →</Link>
         </div>
 
         {/* Flujo de demo */}
         <div>
-          <h2 className="font-semibold text-[#3A2923] mb-4">Flujo de demostración</h2>
+          <h2 className="font-semibold text-[#3A2923] mb-4">Explora las funciones</h2>
           <div className="space-y-3">
             {DEMOS.map(demo => (
               <Link to={demo.path} key={demo.n} className="flex items-center gap-4 bg-white border border-[#EDE8DF] rounded-xl p-4 hover:border-[#B85C38] hover:shadow-sm transition-all group">

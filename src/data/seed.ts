@@ -125,7 +125,7 @@ export const SEED_DATA: AppStore = { certificates: [],
   notifications: [
     { id: "n1", user_id: "u1", type: "order_shipped", title: "Tu pedido fue enviado", message: "Tu pedido VMT-2026-0003 fue enviado. Número de guía: TRK001230003", read: false, created_at: "2026-08-22" },
     { id: "n2", user_id: "u1", type: "order_preparing", title: "Tu pedido está en preparación", message: "Tu pedido VMT-2026-0004 está siendo preparado por el artesano.", read: false, created_at: "2026-08-27" },
-    { id: "n3", user_id: "u1", type: "payment_approved", title: "Pago aprobado", message: "Tu pago sandbox SBX-VMT-2026-0005 fue aprobado. Pedido VMT-2026-0005 confirmado.", read: true, created_at: "2026-08-29" },
+    { id: "n3", user_id: "u1", type: "payment_approved", title: "Pago aprobado", message: "Tu pago SBX-VMT-2026-0005 fue aprobado. Pedido VMT-2026-0005 confirmado.", read: true, created_at: "2026-08-29" },
     { id: "n4", user_id: "u2", type: "new_order", title: "Nueva venta recibida", message: "Recibiste un nuevo pedido VMT-2026-0001 por $770.00 MXN.", read: true, created_at: "2026-03-10" },
     { id: "n5", user_id: "u2", type: "product_published", title: "Producto publicado", message: "Tu producto 'Camino de mesa bordado a mano' fue aprobado y está publicado.", read: true, created_at: "2026-03-15" },
     { id: "n6", user_id: "u2", type: "low_stock", title: "Stock bajo", message: "Tu producto 'Rebozo tejido con motivos mayas' tiene solo 8 unidades en stock.", read: false, created_at: "2026-08-28" },
