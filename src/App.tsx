@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PageMotion from "./components/PageMotion";
 
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
@@ -29,6 +30,7 @@ function RootLayout() {
   return (
     <AppProvider>
       <LanguageProvider>
+      <ScrollToTop />
       <Outlet />
       <SpeechTranslator />
       </LanguageProvider>
