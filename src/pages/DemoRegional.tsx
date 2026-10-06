@@ -6,7 +6,7 @@ const DEMOS = [
   { n: 3, title: "Autorizar ficha cultural", desc: "Consentimiento cultural en paso 7 del flujo", path: "/productor/nueva-publicacion", icon: "✅", role: "producer" },
   { n: 4, title: "Ver QR de producto", desc: "QR de trazabilidad en ficha del producto", path: "/producto/prod1", icon: "📱", role: "any" },
   { n: 5, title: "Comprar como consumidor", desc: "Catálogo → ficha → carrito → checkout", path: "/catalogo", icon: "🛒", role: "consumer" },
-  { n: 6, title: "Pago de prueba", desc: "Usa tarjeta 4242 4242 4242 4242", path: "/carrito", icon: "💳", role: "consumer" },
+  { n: 6, title: "Completa tu pedido", desc: "Elige tu método de pago y confirma la compra", path: "/carrito", icon: "💳", role: "consumer" },
   { n: 7, title: "Gestionar pedido (productor)", desc: "Panel del productor → Pedidos", path: "/productor/dashboard", icon: "📦", role: "producer" },
   { n: 8, title: "Estadísticas del productor", desc: "Panel del productor → Estadísticas", path: "/productor/dashboard", icon: "📊", role: "producer" },
   { n: 9, title: "Estadísticas del consumidor", desc: "Panel del consumidor → Estadísticas", path: "/consumidor/dashboard", icon: "📈", role: "consumer" },

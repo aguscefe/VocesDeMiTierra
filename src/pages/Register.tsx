@@ -17,7 +17,9 @@ const MUNICIPALITIES = ["Felipe Carrillo Puerto", "José María Morelos", "Tulum
 const CRAFT_TYPES = ["Textiles y bordados", "Madera", "Fibras naturales", "Cerámica", "Joyería artesanal", "Decoración", "Accesorios"];
 
 export default function Register() {
-  const [role, setRole] = useState("producer");
+  const [role, setRole] = useState<"consumer" | "producer" | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
@@ -38,14 +40,22 @@ export default function Register() {
   const progress = Math.round(((step + 1) / STEPS.length) * 100);
 
   async function handleNext() {
+    if (!role || saving) return;
+    setError("");
+    if (step === 0 && (!form.name.trim() || !form.phone.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) || form.password.length < 8)) { setError("Completa tu nombre, teléfono, un correo válido y una contraseña de al menos 8 caracteres."); return; }
+    if (role === "consumer" && !form.consent_platform) { setError("Acepta el aviso de privacidad para crear tu cuenta."); return; }
+    if (role === "producer" && step === 1 && !form.workshop.trim()) { setError("Escribe el nombre de tu taller o colectivo."); return; }
+    if (role === "producer" && step === 2 && (!form.community.trim() || !form.municipality)) { setError("Indica tu comunidad y municipio."); return; }
+    if (role === "producer" && step === 6 && !form.consent_platform) { setError("Autoriza el registro en la plataforma para continuar."); return; }
+
     if (role === "consumer") {
-      try { await api("register", "POST", { ...form, role }); setSubmitted(true); setTimeout(() => navigate("/login"), 3000); }
-      catch (e) { alert((e as Error).message); } return;
+      try { setSaving(true); await api("register", "POST", { ...form, role }); setSubmitted(true); setTimeout(() => navigate("/login"), 3000); }
+      catch (e) { setError((e as Error).message); } finally { setSaving(false); } return;
     }
     if (step < STEPS.length - 1) setStep(s => s + 1);
     else {
-      try { await api("register", "POST", { ...form, role }); setSubmitted(true); setTimeout(() => navigate("/login"), 3000); }
-      catch (e) { alert((e as Error).message); }
+      try { setSaving(true); await api("register", "POST", { ...form, role }); setSubmitted(true); setTimeout(() => navigate("/login"), 3000); }
+      catch (e) { setError((e as Error).message); } finally { setSaving(false); }
     }
   }
 
@@ -55,8 +65,8 @@ export default function Register() {
         <div className="w-16 h-16 bg-[#2F7D50]/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-[#2F7D50]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h2 className="font-display text-2xl font-bold text-[#3A2923] mb-2">¡Solicitud enviada!</h2>
-        <p className="text-[#6B6763]">Tu cuenta se guardó. Los perfiles de productor quedan pendientes de revisión. Redirigiendo al inicio de sesión...</p>
+        <h2 className="font-display text-2xl font-bold text-[#3A2923] mb-2">{role === "consumer" ? "¡Cuenta creada!" : "¡Solicitud enviada!"}</h2>
+        <p className="text-[#6B6763]">{role === "consumer" ? "Tu cuenta está lista. Ya puedes iniciar sesión y descubrir tus próximas piezas favoritas." : "Tu solicitud se guardó y tu taller queda pendiente de revisión. Te llevaremos al inicio de sesión."}</p>
       </div>
     </div>
   );
@@ -66,11 +76,16 @@ export default function Register() {
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-6">
           <h1 className="font-display text-3xl font-bold text-[#3A2923]">Crear cuenta</h1>
-          <label className="block mt-4">Tipo de cuenta<select className="input-field" value={role} onChange={e => { setRole(e.target.value); setStep(0); }}><option value="consumer">Consumidor</option><option value="producer">Productor</option></select></label>
+          <p className="text-sm text-[#6B6763] mt-3">Elige cómo quieres formar parte de Voces de mi Tierra.</p>
+          <div className="account-choices" aria-label="Elige tu cuenta">
+            {([{value:"consumer",title:"Consumidor",description:"Descubre artesanías, guarda tus favoritos y compra piezas con historia."},{value:"producer",title:"Productor",description:"Presenta tu taller, publica tus piezas y acompaña tus ventas."}] as const).map(option => <button key={option.value} type="button" className={`account-choice choice-${option.value} ${role === option.value ? "selected" : ""}`} aria-pressed={role === option.value} onClick={() => {setRole(option.value);setStep(0);setError("");}}><span className="account-choice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">{option.value === "consumer" ? <><path d="M5 8h14l1 12H4L5 8Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></> : <><path d="m3 12 4-4 5 3 5-3 4 4-9 8-9-8Z"/><path d="M9 4h6M12 1v6"/></>}</svg></span><strong>{option.title}</strong><span>{option.description}</span><b>{role === option.value ? "Seleccionado ✓" : "Elegir esta cuenta →"}</b></button>)}
+          </div>
+
         </div>
 
+        {role && <>
         {/* Progress */}
-        <div className="bg-white border border-[#EDE8DF] rounded-xl p-4 mb-5">
+        {role === "producer" && <div className="bg-white border border-[#EDE8DF] rounded-xl p-4 mb-5">
           <div className="flex justify-between text-xs text-[#6B6763] mb-2">
             <span>Paso {step + 1} de {STEPS.length}: <strong className="text-[#3A2923]">{STEPS[step]}</strong></span>
             <span>{progress}%</span>
@@ -80,15 +95,16 @@ export default function Register() {
           </div>
         </div>
 
-        <div className="bg-white border border-[#EDE8DF] rounded-xl p-4 sm:p-6 shadow-sm">
+        }
+        <form onSubmit={e => {e.preventDefault();void handleNext();}} className="bg-white border border-[#EDE8DF] rounded-xl p-4 sm:p-6 shadow-sm">
           {(step === 0 || role === "consumer") && (
             <div className="space-y-4">
               <h2 className="font-semibold text-[#3A2923]">Datos personales</h2>
               {role === "consumer" && <label><input type="checkbox" checked={form.consent_platform} onChange={e => set("consent_platform", e.target.checked)} /> Acepto el aviso de privacidad y el registro de mis datos.</label>}
               {[{ label: "Nombre completo", key: "name", type: "text" }, { label: "Correo electrónico", key: "email", type: "email" }, { label: "Teléfono de contacto", key: "phone", type: "tel" }, { label: "Contraseña (mínimo 8 caracteres)", key: "password", type: "password" }].map(f => (
                 <div key={f.key}>
-                  <label className="text-xs font-semibold text-[#3A2923] mb-1 block">{f.label}</label>
-                  <input className="input-field" type={f.type} value={(form as any)[f.key]} onChange={e => set(f.key, e.target.value)} />
+                  <label htmlFor={`register-${f.key}`} className="text-xs font-semibold text-[#3A2923] mb-1 block">{f.label}</label>
+                  <input id={`register-${f.key}`} name={f.key} autoComplete={f.key === "password" ? "new-password" : f.key === "phone" ? "tel" : f.key} required minLength={f.key === "password" ? 8 : undefined} className="input-field" type={f.type} value={(form as any)[f.key]} onChange={e => set(f.key, e.target.value)} />
                 </div>
               ))}
             </div>
@@ -213,14 +229,16 @@ export default function Register() {
             </div>
           )}
 
+          {error && <p role="alert" className="text-sm text-[#B33A3A] mt-4">{error}</p>}
           <div className="flex flex-col-reverse sm:flex-row gap-3 mt-6">
-            {step > 0 && <button onClick={() => setStep(s => s - 1)} className="btn-secondary px-5">← Atrás</button>}
-            <button onClick={handleNext} className="btn-primary flex-1 justify-center">
-              {step === STEPS.length - 1 ? "Enviar solicitud" : "Continuar →"}
+            {step > 0 && <button type="button" onClick={() => {setStep(s => s - 1);setError("");}} className="btn-secondary px-5">← Atrás</button>}
+            <button type="submit" disabled={saving} className="btn-primary flex-1 justify-center">
+              {saving ? "Guardando..." : role === "consumer" ? "Crear mi cuenta" : step === STEPS.length - 1 ? "Enviar solicitud" : "Continuar →"}
             </button>
           </div>
-        </div>
 
+        </form>
+        </>}
         <div className="text-center mt-4">
           <p className="text-sm text-[#6B6763]">¿Ya tienes cuenta? <Link to="/login" className="text-[#B85C38] hover:underline">Iniciar sesión</Link></p>
         </div>

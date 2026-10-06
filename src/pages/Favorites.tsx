@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useApp } from "../context/AppContext";
 import { getStore } from "../data/store";
+import CraftBanner from "../components/CraftBanner";
 import ProductCard from "../components/ProductCard";
 
 export default function Favorites() {
@@ -21,12 +22,7 @@ export default function Favorites() {
 
   return (
     <div className="min-h-screen bg-[#FFFDF8]">
-      <div className="bg-[#B85C38] py-10 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="font-display text-3xl font-bold text-white">Mis favoritos</h1>
-          <p className="text-white/70 mt-1">{favProducts.length} {favProducts.length === 1 ? "pieza guardada" : "piezas guardadas"}</p>
-        </div>
-      </div>
+      <CraftBanner title="Mis favoritos" eyebrow="Piezas que conectan contigo" description={`${favProducts.length} ${favProducts.length === 1 ? "pieza guardada" : "piezas guardadas"}. Un lugar para volver a lo que te inspira.`} image="/demo/productos/rebozo.png" />
       <div className="max-w-7xl mx-auto px-4 py-10">
         {favProducts.length === 0 ? (
           <div className="text-center py-20">

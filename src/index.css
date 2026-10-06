@@ -322,3 +322,13 @@ body,#root{height:auto;min-height:100%;overflow-x:clip}html{overflow-x:clip}
 .home-step:nth-child(2){background:#F7EDF4}.home-step:nth-child(3){background:#FCF4E8}
 .home-step h3{color:#702C5B}.home-step p{color:#62565F}.home-step .font-mono{color:#914172}
 .home-process a{color:#FFFDF8!important}.home-process a:hover{color:#E8BF68!important}
+
+/* Registro: dos caminos claros, con la paleta de Voces. */
+.account-choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;text-align:left}
+.account-choice{display:flex;flex-direction:column;align-items:flex-start;gap:12px;background:#FFFDF8;border:2px solid #E6DAC9;border-radius:24px;padding:22px;text-align:left;color:#3A2923;transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer}
+.account-choice:hover{transform:translateY(-3px);box-shadow:0 8px 24px #3A292312}.account-choice:focus-visible{outline:3px solid #702C5B;outline-offset:3px}
+.account-choice.selected{border-color:#315C4C;background:#E9EFE7}.choice-producer.selected{border-color:#B85C38;background:#F8EBDD}
+.account-choice-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:#E9EFE7;color:#315C4C}.choice-producer .account-choice-icon{background:#F8EBDD;color:#B85C38}
+.account-choice-icon svg{width:28px;height:28px}.account-choice strong{font-family:var(--font-display);font-size:24px}.account-choice>span:not(.account-choice-icon){font-size:13px;line-height:1.7;color:#6B6763}.account-choice b{font-size:12px;color:#315C4C;margin-top:auto}.choice-producer b{color:#B85C38}
+@media(max-width:480px){.account-choices{grid-template-columns:1fr}.account-choice{padding:18px}}
+@media(prefers-reduced-motion:reduce){.account-choice{transition:none}.account-choice:hover{transform:none}}

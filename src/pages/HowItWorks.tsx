@@ -3,7 +3,7 @@ import CraftBanner from "../components/CraftBanner";
 const buyers=[
  ["Explora el catálogo","Encuentra texturas y colores que conecten contigo. Filtra por categoría, material o municipio.","/design/personas/foto-03.png"],
  ["Conoce su origen","Descubre el taller, los materiales y la historia que acompaña a la pieza.","/design/personas/foto-04.png"],
- ["Elige y compra","Calcula el envío, guarda tus favoritos y completa el pago de prueba: no se realizan cargos.","/design/personas/foto-05.png"],
+ ["Elige y compra","Calcula el envío, guarda tus favoritos y completa tu pedido.","/design/personas/foto-05.png"],
  ["Acompaña su viaje","Consulta tus pedidos, su guía y las direcciones de origen y destino desde tu panel.","/design/personas/foto-06.png"]
 ];
 const sellers=[

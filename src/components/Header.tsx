@@ -131,7 +131,7 @@ export default function Header() {
           ) : (
             <>
               <Link to="/login" className="btn-secondary hidden px-3 py-2 text-sm sm:flex">Iniciar sesión</Link>
-              <Link to="/registro" className="btn-primary hidden px-3 py-2 text-sm sm:flex">Quiero vender</Link>
+              <Link to="/registro" className="btn-primary hidden px-3 py-2 text-sm sm:flex">Crear cuenta</Link>
             </>
           )}
 
@@ -173,7 +173,7 @@ export default function Header() {
           ) : (
             <>
               <Link to="/login" className="py-2 text-sm font-medium text-[#B85C38]" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
-              <Link to="/registro" className="py-2 text-sm font-medium text-[#315C4C]" onClick={() => setMenuOpen(false)}>Quiero vender</Link>
+              <Link to="/registro" className="py-2 text-sm font-medium text-[#315C4C]" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
             </>
           )}
         </div>

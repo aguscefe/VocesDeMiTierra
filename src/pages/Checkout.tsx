@@ -5,12 +5,7 @@ import { useApp } from "../context/AppContext";
 import { getStore, refreshStore } from "../data/store";
 
 type Step = "datos" | "pago" | "confirmacion";
-type PayMethod = "card" | "transfer" | "pending" | "paypal";
-
-const TEST_CARDS = [
-  { number: "4242 4242 4242 4242", desc: "Pago aprobado", result: "approved" as const },
-  { number: "4000 0000 0000 0002", desc: "Pago rechazado", result: "declined" as const },
-];
+type PayMethod = "card" | "transfer" | "paypal";
 
 export default function Checkout() {
   const { user, cart, cartTotal, clearCart } = useApp();
@@ -23,8 +18,7 @@ export default function Checkout() {
   const [postal, setPostal] = useState(user?.delivery_postal || "");
   const [phone, setPhone] = useState(user?.phone || "");
   const [method, setMethod] = useState<PayMethod>("card");
-  const [cardNum, setCardNum] = useState("4242 4242 4242 4242");
-  const [paypalAuthorized, setPaypalAuthorized] = useState(false);
+  const [cardNum] = useState("4242 4242 4242 4242");
   const [cardExp] = useState("12/28");
   const [cardCvc] = useState("123");
   const [processing, setProcessing] = useState(false);
@@ -59,7 +53,6 @@ export default function Checkout() {
   }
 
   function validatePago() {
-    if (method === "paypal" && !paypalAuthorized) { setErrors({paypal:"Autoriza el pago para continuar."}); return false; }
     if (method !== "card") return true;
     const e: Record<string, string> = {};
     const raw = cardNum.replace(/\s/g, "");
@@ -76,13 +69,11 @@ export default function Checkout() {
     catch (e) { alert((e as Error).message); }
   }
 
-  async function simulatePayment() {
+  async function confirmPayment() {
     if (!validatePago() || processing) return;
-    const raw = cardNum.replace(/\s/g, "");
-    if (method === "card" && !["4242424242424242", "4000000000000002"].includes(raw)) { alert("Usa únicamente una tarjeta de prueba indicada."); return; }
     setProcessing(true);
     try {
-      const result = await api("checkout", "POST", { address, postal, method, scenario: raw === "4000000000000002" ? "declined" : method === "pending" ? "pending" : "approved", idempotency_key: checkoutKey.current });
+      const result = await api("checkout", "POST", { address, postal, method, scenario: "approved", idempotency_key: checkoutKey.current });
       if (result.declined) { setPayResult("declined"); return; }
       setPaidTotal(result.orders.reduce((sum: number, o: { total: number }) => sum + Number(o.total), 0));
       setConfirmedOrder({ order_number: result.orders.map((o: { order_number: string }) => o.order_number).join(", "), tx_id: result.tx_id || "Pedido recuperado" });
@@ -175,12 +166,12 @@ export default function Checkout() {
 
             {step === "pago" && (
               <div className="bg-white border border-[#EDE8DF] rounded-xl p-6 space-y-5">
-                <p className="text-xs text-[#6B6763]">Pago de prueba · No se realizan cargos ni se solicitan datos financieros reales.</p>
+                <p className="text-xs text-[#6B6763]">No se realizan cargos. Los campos financieros están precargados y no requieren tus datos bancarios.</p>
 
                 <div>
                   <label className="text-xs font-semibold text-[#3A2923] mb-2 block">Método de pago</label>
                   <div className="flex flex-col gap-2">
-                    {([["card", "💳 Tarjeta de crédito o débito"], ["paypal", "PayPal"], ["transfer", "🏦 Transferencia"], ["pending", "⏳ Pagar después"]] as const).map(([v, l]) => (
+                    {([["card", "💳 Tarjeta de crédito o débito"], ["paypal", "PayPal"], ["transfer", "🏦 Transferencia"]] as const).map(([v, l]) => (
                       <label key={v} className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${method === v ? "border-[#B85C38] bg-[#B85C38]/5" : "border-[#EDE8DF]"}`}>
                         <input type="radio" name="method" value={v} checked={method === v} onChange={() => { setMethod(v); setErrors({}); }} className="accent-[#B85C38]" />
                         <span className="text-sm">{l}</span>
@@ -191,20 +182,10 @@ export default function Checkout() {
 
                 {method === "card" && (
                   <div className="space-y-3">
-                    <p id="payment-test-fields" className="text-xs text-[#6B6763]">Datos de prueba precargados.</p>
-                    <div className="bg-[#F5EFE4] rounded-lg p-3 text-xs">
-                      <p className="font-semibold text-[#3A2923] mb-1">Selecciona el resultado de la compra:</p>
-                      {TEST_CARDS.map(tc => (
-                        <div key={tc.number} className="flex items-center gap-2 mt-1">
-                          <button onClick={() => setCardNum(tc.number)} className="font-mono text-[#B85C38] hover:underline">{tc.desc}</button>
-                          <span className={tc.result === "approved" ? "text-[#2F7D50]" : "text-[#B33A3A]"}>→ {tc.desc}</span>
-                        </div>
-                      ))}
-                    </div>
                     <div>
                       <label className="text-xs font-semibold text-[#3A2923] mb-1 block">Número de tarjeta</label>
                       <input className={`input-field font-mono ${errors.cardNum ? "border-[#B33A3A]" : ""}`} placeholder="4242 4242 4242 4242" value={cardNum}
-                        readOnly aria-describedby="payment-test-fields" maxLength={19} />
+                        readOnly maxLength={19} />
                       {errors.cardNum && <p className="text-xs text-[#B33A3A] mt-1">{errors.cardNum}</p>}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -224,12 +205,12 @@ export default function Checkout() {
                   </div>
                 )}
 
-                {method === "paypal" && <section className="rounded-xl border border-blue-200 bg-blue-50 p-5"><h3 className="text-2xl font-bold text-[#003087] mb-3">PayPal</h3><p className="text-sm mb-4">Cuenta de prueba</p><label className="text-xs">Correo de la cuenta<input className="input-field mt-1" value="comprador@voces.example" readOnly /></label><p className="text-sm my-4">Importe: ${total.toLocaleString("es-MX")} MXN</p><button type="button" className="w-full rounded-full bg-[#FFC439] px-4 py-3 font-semibold text-[#003087]" onClick={()=>{setPaypalAuthorized(true);setErrors({});}}>{paypalAuthorized ? "Pago autorizado ✓" : "Autorizar pago"}</button>{errors.paypal&&<p className="text-red-700 text-sm mt-2">{errors.paypal}</p>}</section>}
-                {method === "transfer" && <section className="rounded-xl border p-4"><h3 className="font-semibold">Transferencia</h3><p className="text-sm mt-2">La referencia se asignará al confirmar el pedido. Este pago de prueba no requiere depósitos.</p></section>}
+                {method === "paypal" && <section className="rounded-xl border border-[#E6D7E2] bg-[#F7EDF4] p-5"><h3 className="text-2xl font-bold text-[#702C5B] mb-3">PayPal</h3><label className="text-xs text-[#3A2923]">Correo de la cuenta<input className="input-field mt-1" value={user.email} readOnly /></label><p className="text-sm my-4">Importe: ${total.toLocaleString("es-MX")} MXN</p><p className="text-sm text-[#6B6763]">Confirma tu pedido con el botón de abajo.</p></section>}
+                {method === "transfer" && <section className="rounded-xl border p-4"><h3 className="font-semibold">Transferencia</h3><p className="text-sm mt-2">La referencia se asignará al confirmar el pedido. No requiere depósitos.</p></section>}
                 {payResult === "declined" && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
                     <p className="text-[#B33A3A] font-semibold mb-1">Pago rechazado</p>
-                    <p className="text-sm text-[#B33A3A] mb-3">Selecciona Pago aprobado para reintentar.</p>
+                    <p className="text-sm text-[#B33A3A] mb-3">No se pudo completar el pedido. Inténtalo nuevamente.</p>
                     <button onClick={() => setPayResult(null)} className="btn-primary text-sm">Reintentar</button>
                   </div>
                 )}
@@ -237,7 +218,7 @@ export default function Checkout() {
                 <div className="flex gap-3">
                   <button onClick={() => setStep("datos")} className="btn-secondary px-5">← Atrás</button>
                   {payResult !== "declined" && (
-                    <button onClick={simulatePayment} className="btn-primary flex-1 justify-center" disabled={processing}>
+                    <button onClick={confirmPayment} className="btn-primary flex-1 justify-center" disabled={processing}>
                       {processing ? <><div className="spinner mr-2" style={{width:16,height:16}} />Procesando...</> : `Pagar $${total.toLocaleString("es-MX")} MXN`}
                     </button>
                   )}
@@ -273,7 +254,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="mt-4 text-xs text-[#6B6763] bg-[#F5EFE4] rounded-lg p-2">
-              El productor recibirá el {(cartTotal * 0.9).toLocaleString("es-MX")} MXN (90%) del subtotal.
+              Importe asignado al productor: {(cartTotal * 0.9).toLocaleString("es-MX")} MXN (90%) del subtotal.
             </div>
           </div>
         </div>
